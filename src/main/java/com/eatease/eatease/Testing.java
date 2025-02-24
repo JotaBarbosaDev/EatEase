@@ -15,7 +15,7 @@ public class Testing {
     }
 
     public void criar() {
-        userService.createUser("João Silva", "joao@example.com");
+        userService.createUser("João SIJSIOSIJOSIOJSJIOSIOJ", "joao@example.com");
         userService.createUser("weewoewofweohfewuh Oliveira", "maria@example.com");
         System.out.println("Utilizadores criados com sucesso!");
     }

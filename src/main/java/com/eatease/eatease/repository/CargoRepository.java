@@ -1,13 +1,11 @@
 package com.eatease.eatease.repository;
 
-import com.eatease.eatease.model.User;
-
-import java.util.Optional;
+import com.eatease.eatease.model.Cargo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface CargoRepository extends JpaRepository<Cargo, Long> {
     // Optional<User> findByEmail(String email); // Encontrar usuário pelo e-mail
 }

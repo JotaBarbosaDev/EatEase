@@ -1,22 +1,20 @@
 package com.eatease.eatease;
 
-import com.eatease.eatease.service.UserService;
-import org.springframework.boot.CommandLineRunner;
+import com.eatease.eatease.service.CargoService;
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 public class Testing {
 
-    private final UserService userService;
+    private final CargoService cargoService;
 
-    public Testing(UserService userService) {
-        this.userService = userService;
+    public Testing(CargoService cargoService) {
+        this.cargoService = cargoService;
     }
 
     public void criar() {
-        userService.createUser("João SIJSIOSIJOSIOJSJIOSIOJ", "joao@example.com");
-        userService.createUser("weewoewofweohfewuh Oliveira", "maria@example.com");
-        System.out.println("Utilizadores criados com sucesso!");
+        cargoService.createCargo("Funcionario");
+        cargoService.createCargo("Gerente");
+        System.out.println("Cargos criados com sucesso!");
     }
 }

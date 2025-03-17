@@ -13,11 +13,6 @@ public class ItemIngrediente {
     private long ingredientes_id;
     private int quantidade;
 
-    public ItemIngrediente(long ingredientes_id, int quantidade){
-        this.ingredientes_id = ingredientes_id;
-        this.quantidade = quantidade;
-    }
-
     public Long getId() {
         return id;
     }

@@ -17,15 +17,6 @@ public class Item {
     private boolean eCpmposto;
     private int stockAtual; 
 
-    public Item(String nome, long tipoPrato_id, float preco, long ingrediente_id[], boolean eCpmposto, int stockAtual){
-        this.nome = nome;
-        this.tipoPrato_id = tipoPrato_id;
-        this.preco = preco;
-        this.ingrediente_id = ingrediente_id;
-        this.eCpmposto = eCpmposto;
-        this.stockAtual = stockAtual;
-    }
-
     public long getId() {
         return id;
     }

@@ -9,12 +9,7 @@ public class EstadoPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String nome;
-
-    public EstadoPedido(String nome) {
-        this.nome = nome;
-    }
 
     public long getId() {
         return id;

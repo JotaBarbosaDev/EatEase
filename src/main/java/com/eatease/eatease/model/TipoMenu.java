@@ -12,10 +12,6 @@ public class TipoMenu {
 
     private String nome; //PRINCIPAL, SNACKS, SOBREMESAS, BEBIDAS
 
-    public TipoMenu(String nome){
-        this.nome = nome;
-    }
-
     public long getId() {
         return id;
     }

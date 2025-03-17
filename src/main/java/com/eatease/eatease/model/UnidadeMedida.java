@@ -13,11 +13,6 @@ public class UnidadeMedida {
     private String nome;
     private long ingrediente_id;
 
-    public UnidadeMedida(String nome, long ingrediente_id) {
-        this.nome = nome;
-        this.ingrediente_id = ingrediente_id;
-    }
-
     public Long getId() {
         return id;
     }

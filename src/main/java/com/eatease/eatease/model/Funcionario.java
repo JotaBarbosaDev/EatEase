@@ -12,11 +12,6 @@ public class Funcionario {
 
     private String nome;
     private String cargo_id;
-    
-    public Funcionario(String nome, String cargo_id) {
-        this.nome = nome;
-        this.cargo_id = cargo_id;
-    }
 
     public long getId() {
         return id;

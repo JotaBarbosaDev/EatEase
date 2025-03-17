@@ -12,10 +12,6 @@ public class TipoPrato {
 
     private String nome; //CARNE, PEIXE SOBREMESAS, BEBIDA, SNACK
 
-    public TipoPrato(String nome){
-        this.nome = nome;
-    }
-
     public long getId() {
         return id;
     }

@@ -15,13 +15,6 @@ public class Ingredientes {
     private int stock;
     private int stock_min;
     private String unidade_id;
-    
-    public Ingredientes(String nome, int stock, int stock_min, String unidade_id){
-        this.nome = nome;
-        this.stock = stock;
-        this.stock_min = stock_min;
-        this.unidade_id = unidade_id;
-    }
 
     public long getId() {
         return id;

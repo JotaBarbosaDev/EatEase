@@ -13,8 +13,16 @@ public class CargoService {
         this.cargoRepository = cargoRepository;
     }
 
-    public Cargo createCargo(String nome) {
-        Cargo cargo = new Cargo(nome);
-        return cargoRepository.save(cargo);
+    public boolean createCargo(String nome) {
+        if (cargoRepository.findByNome(nome).isEmpty()) {
+            Cargo cargo = new Cargo();
+            cargo.setNome(nome);
+            cargoRepository.save(cargo);
+            System.err.println("Cargo adicionado com sucesso.");
+            return true;
+        }else{
+            System.err.println("O cargo já existe.");
+            return false;
+        }
     }
 }

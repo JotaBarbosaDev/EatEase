@@ -13,11 +13,6 @@ public class MovimentosIngredientes {
     private long id_ingrediente;
     private long tipoMovimento_id;
 
-    public MovimentosIngredientes(long id_ingrediente, long tipoMovimento_id){
-        this.id_ingrediente = id_ingrediente;
-        this.tipoMovimento_id = tipoMovimento_id;
-    }
-
     public Long getId() {
         return id;
     }

@@ -11,10 +11,6 @@ public class Cargo {
     private long id;
     private String nome; //Gerente, Funcionario
 
-    public Cargo(String nome){
-        this.nome = nome;
-    }
-
     public long getId() {
         return id;
     }

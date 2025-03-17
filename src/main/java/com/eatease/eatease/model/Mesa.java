@@ -12,11 +12,6 @@ public class Mesa {
 
     private int numero;
     private boolean estadoLivre; //true=livre, false=ocupado
-    
-    public Mesa(int numero, boolean estadoLivre) {
-        this.numero = numero;
-        this.estadoLivre = estadoLivre;
-    }
 
     public long getId() {
         return id;

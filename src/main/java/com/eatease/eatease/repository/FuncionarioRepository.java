@@ -1,6 +1,6 @@
 package com.eatease.eatease.repository;
 
-import com.eatease.eatease.model.Cargo;
+import com.eatease.eatease.model.Funcionario;
 
 import java.util.Optional;
 
@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CargoRepository extends JpaRepository<Cargo, Long> {
-    Optional<Cargo> findByNome(String nome);
+public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
+    
+    Optional<Funcionario> findByNome(String nome); 
 }

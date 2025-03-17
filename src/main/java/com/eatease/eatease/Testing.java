@@ -1,20 +1,41 @@
 package com.eatease.eatease;
 
 import com.eatease.eatease.service.CargoService;
+import com.eatease.eatease.service.EstadoPedidoService;
+import com.eatease.eatease.service.FuncionarioService;
+import com.eatease.eatease.service.IngredientesService;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class Testing {
 
     private final CargoService cargoService;
+    private final EstadoPedidoService estadoPedidoService;
+    private final FuncionarioService funcionarioService;
+    private final IngredientesService ingredientesService;
 
-    public Testing(CargoService cargoService) {
+    public Testing(CargoService cargoService, EstadoPedidoService estadoPedidoService, FuncionarioService funcionarioService, IngredientesService ingredientesService) {
         this.cargoService = cargoService;
+        this.estadoPedidoService = estadoPedidoService;
+        this.funcionarioService = funcionarioService;
+        this.ingredientesService = ingredientesService;
     }
 
     public void criar() {
         cargoService.createCargo("Funcionario");
         cargoService.createCargo("Gerente");
-        System.out.println("Cargos criados com sucesso!");
+        cargoService.createCargo("Cozinheiro");
+        cargoService.createCargo("Limpeza");
+        estadoPedidoService.createEstadoPedido("PENDDING");
+        estadoPedidoService.createEstadoPedido("READY");
+        estadoPedidoService.createEstadoPedido("IN_PREPARATION");
+        estadoPedidoService.createEstadoPedido("SERVED");
+        funcionarioService.createFuncionario("Marques", "1");
+        funcionarioService.createFuncionario("Jota", "2");
+        funcionarioService.createFuncionario("Rafa", "1");
+        ingredientesService.createIngredientes("Arroz", 10000, 1000,  "1");
+        ingredientesService.createIngredientes("Massa", 20000, 1000,  "1");
+        ingredientesService.createIngredientes("Batata", 35000, 5000,  "1");
     }
 }

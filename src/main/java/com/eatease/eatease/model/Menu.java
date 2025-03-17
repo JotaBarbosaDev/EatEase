@@ -14,12 +14,6 @@ public class Menu {
     private long items_id[];
     private long tipoMenu[];
 
-    public Menu(long pratos_id[], long items_id[], long tipoMenu[]){
-        this.pratos_id = pratos_id;
-        this.items_id = items_id;
-        this.tipoMenu = tipoMenu;
-    }
-
     public long getId() {
         return id;
     }

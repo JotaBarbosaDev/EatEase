@@ -13,10 +13,6 @@ public class TipoMovimento {
 
     private String nome;
 
-    public TipoMovimento(String nome) {
-        this.nome = nome;
-    }
-
     public Long getId() {
         return id;
     }

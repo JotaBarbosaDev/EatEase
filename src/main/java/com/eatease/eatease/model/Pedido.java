@@ -15,13 +15,6 @@ public class Pedido {
     private long mesa_id;
     private long funcionario_id;
 
-    public Pedido(long prato_id, long estadoPedido_id, long mesa_id, long funcionario_id){
-        this.prato_id = prato_id;
-        this.estadoPedido_id = estadoPedido_id;
-        this.mesa_id = mesa_id;
-        this.funcionario_id = funcionario_id;
-    }
-
     public long getId() {
         return id;
     }

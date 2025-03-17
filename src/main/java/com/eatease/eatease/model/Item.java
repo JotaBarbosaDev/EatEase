@@ -13,7 +13,7 @@ public class Item {
     private String nome;
     private long tipoPrato_id;
     private float preco;
-    private long ingrediente_id[];
+    private long ingredientes_id[];
     private boolean eCpmposto;
     private int stockAtual; 
 
@@ -50,11 +50,11 @@ public class Item {
     }
 
     public long[] getIngrediente_id() {
-        return ingrediente_id;
+        return ingredientes_id;
     }
 
     public void setIngrediente_id(long[] ingrediente_id) {
-        this.ingrediente_id = ingrediente_id;
+        this.ingredientes_id = ingrediente_id;
     }
 
     public boolean iseCpmposto() {

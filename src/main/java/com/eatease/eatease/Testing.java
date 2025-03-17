@@ -37,5 +37,8 @@ public class Testing {
         ingredientesService.createIngredientes("Arroz", 10000, 1000,  "1");
         ingredientesService.createIngredientes("Massa", 20000, 1000,  "1");
         ingredientesService.createIngredientes("Batata", 35000, 5000,  "1");
+        //Limpar dados da bd e testar com casos reais
+        //Marques verifica esta merda toda mas acho que há alguns muitos ajustes a fazer
+        //Falta adicionar validacoes e outras funcoes
     }
 }

@@ -9,7 +9,6 @@ public class ItemIngrediente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private long ingredientes_id;
     private int quantidade;
 

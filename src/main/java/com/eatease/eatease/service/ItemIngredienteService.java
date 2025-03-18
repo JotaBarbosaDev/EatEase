@@ -14,15 +14,11 @@ public class ItemIngredienteService {
     }
 
     public boolean createItemIngrediente(long ingredientes_id, int quantidade) {
-        if (itemIngredienteRepository.findByIngredientes(ingredientes_id).isEmpty()) {
             ItemIngrediente itemIngrediente = new ItemIngrediente();
             itemIngrediente.setIngredientes_id(ingredientes_id);
             itemIngrediente.setQuantidade(quantidade);
+            itemIngredienteRepository.save(itemIngrediente);
             System.err.println("Item ingrediente adicionado com sucesso.");
             return true;
-        }else{
-            System.err.println("O Item ingrediente já existe.");
-            return false;
-        }
     }
 }

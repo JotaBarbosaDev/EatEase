@@ -20,13 +20,13 @@ public class SecurityConfig {
          http
             .csrf(csrf -> csrf.disable()) // Desativa CSRF para facilitar testes
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/register/**", "/css/**", "/js/**").permitAll() // Permite acesso a login, register e assets
+                .requestMatchers("/login", "/register/**", "/css/**", "/js/**", "/home").permitAll() // Permite acesso a login, register e assets
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")               // Tua página de login personalizada
                 .loginProcessingUrl("/login")      // URL para processar o login (o Spring cuidará disso)
-                .defaultSuccessUrl("/", true)      // Página de destino após o login
+                .defaultSuccessUrl("/home", true)     // Página de destino após o login
                 .permitAll()
             )
             .logout(logout -> logout

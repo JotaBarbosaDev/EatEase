@@ -13,20 +13,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public boolean createUser(String username, String nome, String password, long cargo_id) {
-        
-        if (userRepository.findByUsername(username).isEmpty()) {
-            User user = new User();
-            user.setNome(nome);
-            user.setUsername(username);
-            user.setPassword(password);
-            user.setCargo_id(cargo_id);
-            userRepository.save(user);
-            System.err.println("User adicionado com sucesso.");
-            return true;
-        }else{
-            System.err.println("O username já existe.");
-            return false;
-        }
+    public User save(User user) {
+        // Aqui podes adicionar lógica extra, por exemplo, verificar se o username já existe
+        return userRepository.save(user);
     }
 }

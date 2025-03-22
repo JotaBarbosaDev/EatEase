@@ -11,5 +11,8 @@ public class EatEaseApplication {
 		ApplicationContext context = SpringApplication.run(EatEaseApplication.class, args);
 		Testing test = context.getBean(Testing.class);
 		test.criar();
+		//hello world
+		
+
 	}
 }

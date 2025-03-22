@@ -1,3 +1,4 @@
+# Maven
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -32,4 +33,11 @@ build/
 ### VS Code ###
 .vscode/
 
+# Node
+node_modules/
+
+# Ficheiros compilados (opcional, se não pretendes commitar)
+src/main/resources/static/css/output.css
+
+# Ficheiros de configuração sensíveis (se for o caso, ajusta conforme necessário)
 src/main/resources/application.properties

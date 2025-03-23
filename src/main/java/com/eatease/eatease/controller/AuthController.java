@@ -1,44 +1,37 @@
 package com.eatease.eatease.controller;
 
-import com.eatease.eatease.model.User;
-import com.eatease.eatease.repository.UserRepository;
-import com.eatease.eatease.service.CustomUserDetailsService;
+import com.eatease.eatease.model.Funcionario;
+import com.eatease.eatease.repository.FuncionarioRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private static final Logger log = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
-
-    private final UserRepository userRepository;
+    private final FuncionarioRepository funcionarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public AuthController(FuncionarioRepository funcionarioRepository, PasswordEncoder passwordEncoder) {
+        this.funcionarioRepository = funcionarioRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        User user = userRepository.findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new RuntimeException("Utilizador não encontrado"));
-                log.info("Utilizador não encontrado", user);
+    public ResponseEntity<?> loginFuncionario(@RequestBody LoginRequest loginRequest) {
+        Funcionario funcionario = funcionarioRepository.findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
 
-        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            log.warn("Tentativa de login falhada para o utilizador: " + loginRequest.getUsername());
+        if (!passwordEncoder.matches(loginRequest.getPassword(), funcionario.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
         }
 
         return ResponseEntity.ok("Login bem-sucedido!");
     }
+
     
 }

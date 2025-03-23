@@ -1,46 +1,33 @@
-package com.eatease.eatease.model;
+package com.eatease.eatease.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "funcionario")
-
-public class Funcionario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
+public class FuncionarioDTO {
+    @NotBlank(message = "O nome é obrigatório")
     private String nome;
-    private String cargo_id;
+
+    @NotBlank(message = "O username é obrigatório")
+    @Size(min = 3, max = 30, message = "O username deve ter entre 3 e 30 caracteres")
     private String username;
+
+    @NotBlank(message = "A password é obrigatória")
+    @Size(min = 6, message = "A password deve ter no mínimo 6 caracteres")
     private String password;
+
+    @NotBlank(message = "O cargo é obrigatório")
+    private String cargoId;
+
     private String email;
     private String telefone;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
+    // Getters e Setters
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public String getCargo_id() {
-        return cargo_id;
-    }
-
-    public void setCargo_id(String cargo_id) {
-        this.cargo_id = cargo_id;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -52,6 +39,12 @@ public class Funcionario {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getCargoId() {
+        return cargoId;
+    }
+    public void setCargoId(String cargoId) {
+        this.cargoId = cargoId;
     }
     public String getEmail() {
         return email;

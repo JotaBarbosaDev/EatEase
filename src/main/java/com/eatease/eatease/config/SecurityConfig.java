@@ -20,8 +20,11 @@ public class SecurityConfig {
          http
             .csrf(csrf -> csrf.disable()) // Desativa CSRF para facilitar testes
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/register/**", "/css/**", "/js/**", "/home").permitAll() // Permite acesso a login, register e assets
+                .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/register/**").hasRole("GERENTE")
+
                 .anyRequest().authenticated()
+
             )
             .formLogin(form -> form
                 .loginPage("/login")               // Tua página de login personalizada
@@ -30,10 +33,13 @@ public class SecurityConfig {
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutUrl("/logout")              // URL para logout
-                .logoutSuccessUrl("/login")        // Redireciona para o login após o logout
-                .permitAll()
-            );
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+            .permitAll()
+        );
+
 
          return http.build();
     }

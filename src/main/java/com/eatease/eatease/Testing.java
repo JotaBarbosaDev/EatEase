@@ -5,6 +5,7 @@ import com.eatease.eatease.service.EstadoPedidoService;
 import com.eatease.eatease.service.FuncionarioService;
 import com.eatease.eatease.service.IngredientesService;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,8 +15,11 @@ public class Testing {
     private final EstadoPedidoService estadoPedidoService;
     private final FuncionarioService funcionarioService;
     private final IngredientesService ingredientesService;
+        private final PasswordEncoder passwordEncoder;
 
-    public Testing(CargoService cargoService, EstadoPedidoService estadoPedidoService, FuncionarioService funcionarioService, IngredientesService ingredientesService) {
+
+    public Testing(CargoService cargoService, EstadoPedidoService estadoPedidoService, FuncionarioService funcionarioService, IngredientesService ingredientesService, PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
         this.cargoService = cargoService;
         this.estadoPedidoService = estadoPedidoService;
         this.funcionarioService = funcionarioService;
@@ -23,22 +27,20 @@ public class Testing {
     }
 
     public void criar() {
-        cargoService.createCargo("Funcionario");
-        cargoService.createCargo("Gerente");
-        cargoService.createCargo("Cozinheiro");
-        cargoService.createCargo("Limpeza");
+        cargoService.createCargo("FUNCIONARIO");
+        cargoService.createCargo("GERENTE");
+        cargoService.createCargo("COZINHEIRO");
+        cargoService.createCargo("LIMPEZA");
         estadoPedidoService.createEstadoPedido("PENDDING");
         estadoPedidoService.createEstadoPedido("READY");
         estadoPedidoService.createEstadoPedido("IN_PREPARATION");
         estadoPedidoService.createEstadoPedido("SERVED");
-        funcionarioService.createFuncionario("Marques", "1");
-        funcionarioService.createFuncionario("Jota", "2");
-        funcionarioService.createFuncionario("Rafa", "1");
+        funcionarioService.createFuncionario("Administrador", "2", "admin", passwordEncoder.encode("admin"), "admin@email.com", "213123123");
+        funcionarioService.createFuncionario("Jota", "1", "jota", passwordEncoder.encode("jota"), "jota@email.pt", "213123123");
+        funcionarioService.createFuncionario("Rafa", "1", "rafa", passwordEncoder.encode("rafa"), "rafa@email.fr", "213123123");
         ingredientesService.createIngredientes("Arroz", 10000, 1000,  "1");
         ingredientesService.createIngredientes("Massa", 20000, 1000,  "1");
         ingredientesService.createIngredientes("Batata", 35000, 5000,  "1");
-        //Limpar dados da bd e testar com casos reais
-        //Marques verifica esta merda toda mas acho que há alguns muitos ajustes a fazer
-        //Falta adicionar validacoes e outras funcoes
+
     }
 }

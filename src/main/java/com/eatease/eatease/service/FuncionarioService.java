@@ -13,11 +13,15 @@ public class FuncionarioService {
         this.funcionarioRepository = funcionarioRepository;
     }
 
-    public boolean createFuncionario(String nome, String cargo_id) {
-        if (funcionarioRepository.findByNome(nome).isEmpty()) {
+    public boolean createFuncionario(String nome, String cargo_id, String username, String password, String email, String telefone) {
+        if (funcionarioRepository.findByUsername(username).isEmpty()) {
             Funcionario funcionario = new Funcionario();
             funcionario.setNome(nome);
             funcionario.setCargo_id(cargo_id);
+            funcionario.setUsername(username);
+            funcionario.setPassword(password);
+            funcionario.setEmail(email);
+            funcionario.setTelefone(telefone);
             funcionarioRepository.save(funcionario);
             System.err.println("Funcionario adicionado com sucesso.");
             return true;

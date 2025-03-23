@@ -6,19 +6,33 @@
     <title>Login</title>
     <link rel="stylesheet" th:href="@{/css/output.css}" />
 </head>
-<body>
-    <h2>Login</h2>
-    <form action="/login" method="post">
-        <p class="alert" style="color:red;"></p>
-        
-        <label for="username">Nome de Utilizador:</label>
-        <input type="text" id="username" name="username" required>
-        
-        <label for="password">Palavra-passe:</label>
-        <input type="password" id="password" name="password" required>
-        
-        <button type="submit">Entrar</button>
-    </form>
-    <p>Não tens conta? <a href="/register/CreateUser">Regista-te aqui</a></p>
+<body class="min-h-screen bg-base-200 flex items-center justify-center">
+    <div class="card w-96 bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title text-center">Entrar</h2>
+            <form action="/login" method="post">                
+                <div class="form-control">
+                    <label class="label" for="username">
+                        <span class="label-text">Nome de Utilizador:</span>
+                    </label>
+                    <input type="text" id="username" name="username" required class="input input-bordered">
+                </div>
+                
+                <div class="form-control">
+                    <label class="label" for="password">
+                        <span class="label-text">Palavra-passe:</span>
+                    </label>
+                    <input type="password" id="password" name="password" required class="input input-bordered">
+                </div>
+                
+                <div class="form-control mt-4">
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                </div>
+            </form>
+            <p class="mt-4 text-center">
+                Não tens conta? <a href="/register/CreateUser" class="link link-primary">Regista-te aqui</a>
+            </p>
+        </div>
+    </div>
 </body>
 </html>

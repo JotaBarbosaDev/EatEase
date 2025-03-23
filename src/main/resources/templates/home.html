@@ -1,28 +1,83 @@
 <!DOCTYPE html>
-<html lang="pt" data-theme="dark">  
+<html lang="pt" data-theme="dark"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-vindo ao EatEase</title>
-    <link rel="stylesheet" th:href="@{/css/output.css}" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EatEase - Sistema de Pedidos</title>
+  <link rel="stylesheet" th:href="@{/css/output.css}" />
 </head>
 <body>
-    <div class="card bg-base-100 w-96 shadow-sm">
-  <figure>
-    <img
-      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-      alt="Shoes" />
-  </figure>
-  <div class="card-body">
-    <h2 class="card-title">Card Title</h2>
-    <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-    <div class="card-actions justify-end">
-      <button class="btn btn-primary">Buy Now</button>
+  <!-- Navbar -->
+  <div class="navbar bg-base-100">
+    <div class="flex-1">
+      <a class="btn btn-ghost normal-case text-xl" href="/">EatEase</a>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal p-0">
+        <li><a href="/menu">Menu</a></li>
+        <li><a href="/orders">Pedidos</a></li>
+        <li><a href="/contact">Inventario</a></li>
+        <!-- Botão visível apenas para Admin -->
+        <li sec:authorize="hasRole('GERENTE')">
+          <a href="/register/CreateFuncionario" class="btn btn-secondary">Registar Funcionário</a>
+        </li>
+        <li sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+          <button type="submit" class="btn btn-error btn-sm">Logout</button>
+        </form>
+      </li>
+      </ul>
+      
+      <!-- Bloco com dados do utilizador e logout -->
+      
     </div>
   </div>
-</div>
-    <h1>Bem-vindo ao EatEase 🍽️</h1>
-    <p>Esta é a página inicial do teu projeto.</p>
+    
+    <!-- Hero Section -->
+    <div class="hero min-h-screen" style="background-image: url('https://img.daisyui.com/backgrounds/flower-1.jpg');">
+      
+      <div class="hero-overlay bg-opacity-60"></div>
+      <div class="hero-content text-center text-neutral-content">
+        <div class="max-w-md">
+          <h1 class="mb-5 text-5xl font-bold">Bem-vindo ao EatEase 🍽️</h1>
+          <p class="mb-5">Sistema de pedidos para o seu restaurante, simples e intuitivo!</p>
+          <button class="btn btn-primary">Explorar Cardápio</button>
+        </div>
+      </div>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        <p class="text-sm">
+          ID: <span th:text="${#authentication?.principal?.id}"></span><br/>
+          Role: <span th:text="${#authentication?.principal?.authorities}"></span><br/>
+          Nome: <span th:text="${#authentication?.principal?.nome}"></span><br/>
+          Username: <span th:text="${#authentication?.principal?.username}"></span><br/>
+          Cargo: <span th:text="${#authentication?.principal?.cargo}"></span><br/>
+          Email: <span th:text="${#authentication?.principal?.email}"></span><br/>
+          Telefone: <span th:text="${#authentication?.principal?.telefone}"></span>
+        </p>
+      </div>
+
+    <!-- Card Section -->
+    <div class="container mx-auto py-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="card bg-base-100 shadow-xl">
+          <figure>
+            <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp" alt="Prato 1" />
+          </figure>
+          <div class="card-body">
+            <h2 class="card-title">Prato Especial</h2>
+            <p>Delicioso prato especial do restaurante.</p>
+            <div class="card-actions justify-end">
+              <button class="btn btn-primary">Pedir Agora</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
 </body>
 </html>

@@ -1,12 +1,10 @@
 package com.eatease.eatease.controller;
 
-import com.eatease.eatease.dto.UserDTO;
-import com.eatease.eatease.model.User;
-import com.eatease.eatease.service.UserService;
+import com.eatease.eatease.dto.FuncionarioDTO;
+import com.eatease.eatease.model.Funcionario;
+import com.eatease.eatease.repository.FuncionarioRepository;
 import jakarta.validation.Valid;
-
-import java.util.Set;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,41 +16,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class RegistrationController {
 
-    private final UserService userService;
+    private final FuncionarioRepository funcionarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationController(UserService userService, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
+    public RegistrationController(FuncionarioRepository funcionarioRepository, PasswordEncoder passwordEncoder) {
+        this.funcionarioRepository = funcionarioRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/register/CreateUser")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("userDTO", new UserDTO());
-        return "register";  // Aponta para o template register.html
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/register/CreateFuncionario")
+    public String showFuncionarioRegistrationForm(Model model) {
+        model.addAttribute("funcionarioDTO", new FuncionarioDTO());
+        return "registerFuncionario";  // Um template adaptado para criar funcionários
     }
 
-    @PostMapping("/register/CreateUser")
-    public String processRegistration(@Valid @ModelAttribute("userDTO") UserDTO userDTO,
-                                      BindingResult bindingResult, Model model) {
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/register/CreateFuncionario")
+    public String processFuncionarioRegistration(@Valid @ModelAttribute("funcionarioDTO") FuncionarioDTO funcionarioDTO,
+                                                  BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            // Se houver erros, volta ao formulário e mostra as mensagens
-            System.err.println("Erro no registo: " + bindingResult.getAllErrors());
-            model.addAttribute("userDTO", userDTO);
-            return "register";
+            return "registerFuncionario";
         }
 
-        // Caso os dados sejam válidos, mapeia para a entidade User
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        // Define um role padrão, por exemplo "USER"
-        user.setRoles(Set.of("USER"));
+        Funcionario funcionario = new Funcionario();
+        funcionario.setNome(funcionarioDTO.getNome());
+        funcionario.setUsername(funcionarioDTO.getUsername());
+        funcionario.setPassword(passwordEncoder.encode(funcionarioDTO.getPassword()));
+        funcionario.setCargo_id(funcionarioDTO.getCargoId()); // ou lógica para definir o cargo
+        funcionario.setEmail(funcionarioDTO.getEmail());
+        funcionario.setTelefone(funcionarioDTO.getTelefone());
 
-        // Chama o serviço que grava o user na BD (ver o ponto 3)
-        userService.save(user);
+        funcionarioRepository.save(funcionario);
 
-        // Após o registo, redireciona para a página de login (ou outra)
-        return "redirect:/login";
+        return "redirect:/home";
     }
 }

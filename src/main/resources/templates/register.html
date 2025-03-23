@@ -1,23 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Registo de Utilizador</title>
-</head>
-<body>
-    <h1>Registo</h1>
-    <form th:action="@{/register/CreateUser}" th:object="${userDTO}" method="post">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/output.css}" />
 
-        <div>
-            <label>Username:</label>
-            <input type="text" th:field="*{username}" />
-            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+</head>
+
+<body class="min-h-screen bg-base-200 flex items-center justify-center">
+    <div class="card w-96 bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title text-center">Registo</h2>
+            <form th:action="@{/register/CreateUser}" th:object="${userDTO}" method="post">
+                
+                <div class="form-control">
+                    <label class="label" for="username">
+                        <span class="label-text">Username:</span>
+                    </label>
+                    <input type="text" th:field="*{username}" class="input validator" required placeholder="Username" 
+                    pattern="[A-Za-z][A-Za-z0-9\-]*" id="username" minlength="3" maxlength="30" title="Only letters, numbers or dash" />
+
+                    <div class="toast toast-top toast-center validator-hint">
+                        <div role="alert" class="alert alert-error alert-soft ">
+                            <span>
+                                Deve ter entre 3 e 30 caracteres
+                                <br/>contendo apenas letras, números ou simbolos
+                            </span>
+                        </div>
+                    </div>
+
+                    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-red-500"></div>
+                </div>
+                <div class="form-control">
+                    <label class="label" for="password">
+                        <span class="label-text">Password:</span>
+                    </label>
+                    <input type="password" th:field="*{password}" class="input validator" required placeholder="Password" id="password" minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must be more than 8 characters, including number, lowercase letter, uppercase letter" />
+
+                    <div class="toast toast-top toast-center validator-hint">
+                        <div role="alert" class="alert alert-error alert-soft ">
+                            <span>
+                                Deve ter pelo menos 8 caracteres, incluindo:
+                                    <br/>pelo menos um número,
+                                    <br/>pelo menos uma letra minúscula
+                                    <br/> e pelo menos uma letra maiúscula
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500"></div>
+                </div>
+                <div class="form-control mt-4">
+                    <button type="submit" class="btn btn-primary">Registar</button>
+                </div>
+            </form>
         </div>
-        <div>
-            <label>Password:</label>
-            <input type="password" th:field="*{password}" />
-            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-        </div>
-        <button type="submit">Registar</button>
-    </form>
+    </div>
 </body>
 </html>

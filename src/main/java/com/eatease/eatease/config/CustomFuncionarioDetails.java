@@ -25,8 +25,9 @@ public class CustomFuncionarioDetails implements UserDetails {
     }
 
     public String getCargo() {
-        return funcionario.getCargo_id();
-    }
+    return funcionario.getCargo() != null ? funcionario.getCargo().getNome() : "";
+}
+
     
     public String getEmail() {
         return funcionario.getEmail();
@@ -48,12 +49,13 @@ public class CustomFuncionarioDetails implements UserDetails {
     
     @Override
 public Collection<? extends GrantedAuthority> getAuthorities() {
-    // Se o cargo_id for "2", consideramos o utilizador como Gerente; caso contrário, USER.
-    String role = funcionario.getCargo_id().trim().equals("2") ? "GERENTE" : "FUNCIONARIO";
-return List.of(new SimpleGrantedAuthority("ROLE_" + role));
-
-
+    String role = "FUNCIONARIO";
+    if (funcionario.getCargo() != null && funcionario.getCargo().getId() == 2L) {
+        role = "GERENTE";
+    }
+    return List.of(new SimpleGrantedAuthority("ROLE_" + role));
 }
+
 
 
     @Override

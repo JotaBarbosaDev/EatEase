@@ -4,14 +4,20 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "funcionario")
-
 public class Funcionario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String nome;
-    private String cargo_id;
+    // Remove o cargo_id como String
+    // private String cargo_id;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cargo_id")
+    private Cargo cargo;
+
+    
     private String username;
     private String password;
     private String email;
@@ -32,13 +38,14 @@ public class Funcionario {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public String getCargo_id() {
-        return cargo_id;
+    
+    // Métodos para a associação com Cargo
+    public Cargo getCargo() {
+        return cargo;
     }
 
-    public void setCargo_id(String cargo_id) {
-        this.cargo_id = cargo_id;
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
     }
 
     public String getUsername() {

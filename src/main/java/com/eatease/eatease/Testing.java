@@ -35,9 +35,9 @@ public class Testing {
         estadoPedidoService.createEstadoPedido("READY");
         estadoPedidoService.createEstadoPedido("IN_PREPARATION");
         estadoPedidoService.createEstadoPedido("SERVED");
-        funcionarioService.createFuncionario("Administrador", "2", "admin", passwordEncoder.encode("admin"), "admin@email.com", "213123123");
-        funcionarioService.createFuncionario("Jota", "1", "jota", passwordEncoder.encode("jota"), "jota@email.pt", "213123123");
-        funcionarioService.createFuncionario("Rafa", "1", "rafa", passwordEncoder.encode("rafa"), "rafa@email.fr", "213123123");
+        funcionarioService.createFuncionario("Administrador", Long.parseLong("2"), "admin", passwordEncoder.encode("admin"), "admin@email.com", "213123123");
+        funcionarioService.createFuncionario("Jota", Long.parseLong("1"), "jota", passwordEncoder.encode("jota"), "jota@email.pt", "213123123");
+        funcionarioService.createFuncionario("Rafa", Long.parseLong("1"), "rafa", passwordEncoder.encode("rafa"), "rafa@email.fr", "213123123");
         ingredientesService.createIngredientes("Arroz", 10000, 1000,  "1");
         ingredientesService.createIngredientes("Massa", 20000, 1000,  "1");
         ingredientesService.createIngredientes("Batata", 35000, 5000,  "1");

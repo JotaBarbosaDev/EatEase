@@ -1,6 +1,7 @@
 package com.eatease.eatease.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class FuncionarioDTO {
@@ -15,8 +16,8 @@ public class FuncionarioDTO {
     @Size(min = 6, message = "A password deve ter no mínimo 6 caracteres")
     private String password;
 
-    @NotBlank(message = "O cargo é obrigatório")
-    private String cargoId;
+    @NotNull(message = "O cargo é obrigatório")
+    private Long cargoId;
 
     private String email;
     private String telefone;
@@ -40,10 +41,10 @@ public class FuncionarioDTO {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getCargoId() {
+    public Long getCargoId() {
         return cargoId;
     }
-    public void setCargoId(String cargoId) {
+    public void setCargoId(Long cargoId) {
         this.cargoId = cargoId;
     }
     public String getEmail() {

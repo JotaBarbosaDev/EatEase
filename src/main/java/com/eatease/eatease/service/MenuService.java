@@ -13,9 +13,8 @@ public class MenuService {
         this.menuRepository = menuRepository;
     }
 
-    public boolean createMenu(long pratos_id[], long items_id[], long tipoMenu[]) {
+    public boolean createMenu(long items_id[], long tipoMenu[]) {
             Menu menu = new Menu();
-            menu.setPratos_id(pratos_id);
             menu.setItems_id(items_id);
             menu.setTipoMenu(tipoMenu);
             menuRepository.save(menu);

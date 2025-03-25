@@ -10,7 +10,6 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long pratos_id[];
     private long items_id[];
     private long tipoMenu[];
 
@@ -20,14 +19,6 @@ public class Menu {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long[] getPratos_id() {
-        return pratos_id;
-    }
-
-    public void setPratos_id(long[] pratos_id) {
-        this.pratos_id = pratos_id;
     }
 
     public long[] getItems_id() {

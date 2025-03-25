@@ -45,7 +45,7 @@ public class FuncionarioDTO {
         return cargoId;
     }
     public void setCargoId(Long cargoId) {
-        this.cargoId = cargoId;
+        this.cargoId = cargoId; 
     }
     public String getEmail() {
         return email;

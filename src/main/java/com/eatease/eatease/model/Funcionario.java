@@ -10,8 +10,7 @@ public class Funcionario {
     private long id;
 
     private String nome;
-    // Remove o cargo_id como String
-    // private String cargo_id;
+
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cargo_id")

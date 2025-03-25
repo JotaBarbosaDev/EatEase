@@ -11,7 +11,6 @@ public class UnidadeMedida {
     private Long id;
 
     private String nome;
-    private long ingrediente_id;
 
     public Long getId() {
         return id;
@@ -27,14 +26,6 @@ public class UnidadeMedida {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public long getIngrediente_id() {
-        return ingrediente_id;
-    }
-
-    public void setIngrediente_id(long ingrediente_id) {
-        this.ingrediente_id = ingrediente_id;
     }
     
 }

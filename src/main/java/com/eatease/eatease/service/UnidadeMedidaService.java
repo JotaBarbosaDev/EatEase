@@ -13,11 +13,10 @@ public class UnidadeMedidaService {
         this.unidadeMedidaRepository = unidadeMedidaRepository;
     }
 
-    public boolean createUnidadeMedida(String nome, long ingrediente_id) {
+    public boolean createUnidadeMedida(String nome) {
         if (unidadeMedidaRepository.findByNome(nome).isEmpty()) {
             UnidadeMedida unidadeMedida = new UnidadeMedida();
             unidadeMedida.setNome(nome);
-            unidadeMedida.setIngrediente_id(ingrediente_id);
             unidadeMedidaRepository.save(unidadeMedida);
             System.err.println("Unidade de medida adicionada com sucesso.");
             return true;

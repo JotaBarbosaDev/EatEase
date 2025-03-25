@@ -17,9 +17,9 @@ public class DatabaseConnectionChecker {
     public void checkDatabaseConnection() {
         try {
             jdbcTemplate.queryForObject("SELECT 1", Integer.class);
-            System.out.println("✅ Conexão à base de dados bem-sucedida!");
+            System.out.println("✅ Conexão a base de dados bem sucedida!");
         } catch (Exception e) {
-            System.err.println("❌ Erro ao conectar à base de dados: " + e.getMessage());
+            System.err.println("❌ Erro ao conectar a base de dados: " + e.getMessage());
         }
     }
 }

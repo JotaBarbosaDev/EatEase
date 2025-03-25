@@ -18,18 +18,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
          http
-            .csrf(csrf -> csrf.disable()) // Desativa CSRF para facilitar testes
+            .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                 .requestMatchers("/register/**").hasRole("GERENTE")
-
+                .requestMatchers("/home/**").authenticated()
                 .anyRequest().authenticated()
 
             )
             .formLogin(form -> form
-                .loginPage("/login")               // Tua página de login personalizada
-                .loginProcessingUrl("/login")      // URL para processar o login (o Spring cuidará disso)
-                .defaultSuccessUrl("/home", true)     // Página de destino após o login
+                .loginPage("/login")              
+                .loginProcessingUrl("/login")      
+                .defaultSuccessUrl("/home", true)     
                 .permitAll()
             )
             .logout(logout -> logout

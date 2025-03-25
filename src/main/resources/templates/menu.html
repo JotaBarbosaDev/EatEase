@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt" data-theme="dark"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EatEase - Sistema de Pedidos</title>
+  <link rel="stylesheet" th:href="@{/css/output.css}" />
+</head>
+<body>
+
+	<div class="navbar bg-base-100">
+    <div class="flex-1">
+      <a class="btn btn-ghost normal-case text-xl" href="/">EatEase</a>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal p-0">
+		<li><a href="/home">Mesas</a></li>
+        <li><a href="/menu">Menu</a></li>
+        <li><a href="/orders">Pedidos</a></li>
+        <li><a href="/contact">Inventario</a></li>
+
+		<li sec:authorize="hasRole('GERENTE')">
+          <a href="/register/CreateFuncionario" class="btn btn-secondary">Registar Funcionário</a>
+        </li>
+        <li sec:authorize="isAuthenticated()">
+          <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-error btn-sm">Logout</button>
+          </form>
+        </li>
+      </ul>
+      
+      
+    </div>
+  </div>
+      
+      <div class="container mx-auto">
+        <h1 class="text-4xl font-bold mb-6 text-center">Menus do Restaurante</h1>
+        
+        <div class="tabs tabs-boxed justify-center mb-8">
+          <a class="tab tab-active" data-tab="carne">Carne</a>
+          <a class="tab" data-tab="peixe">Peixe</a>
+          <a class="tab" data-tab="bebidas">Bebidas</a>
+          <a class="tab" data-tab="sobremesas">Sobremesas</a>
+        </div>
+        
+        <div id="tab-content">
+
+			<div class="tab-pane" id="carne">
+            <div class="card bg-base-100 shadow-lg mb-6">
+              <div class="card-body">
+                <div class="flex justify-between items-center mb-4">
+                  <h2 class="card-title">Carne</h2>
+                  <button class="btn btn-primary btn-sm" sec:authorize="hasRole('GERENTE')">Adicionar Prato</button>
+                </div>
+                <ul class="menu rounded-box flex flex-row">
+                  <li class="p-4 bg-base-200 border-b ml-4 mb-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="font-bold">Bife à Portuguesa</p>
+                        <p class="text-sm">Ingredientes: Bife, alho, cebola, ervas</p>
+                        <p class="text-sm">Preço: 45,00€</p>
+                      </div>
+                      <button class="btn btn-error btn-sm" sec:authorize="hasRole('GERENTE')">Remover</button>
+                    </div>
+                  </li>
+                  
+				  <li class="p-4 bg-base-200 border-b ml-4 mb-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="font-bold">Bife à Portuguesa</p>
+                        <p class="text-sm">Ingredientes: Bife, alho, cebola, ervas</p>
+                        <p class="text-sm">Preço: 45,00€</p>
+                      </div>
+                      <button class="btn btn-error btn-sm" sec:authorize="hasRole('GERENTE')">Remover</button>
+                    </div>
+                  </li>
+
+				  <li class="p-4 bg-base-200 border-b ml-4 mb-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="font-bold">Bife à Portuguesa</p>
+                        <p class="text-sm">Ingredientes: Bife, alho, cebola, ervas</p>
+                        <p class="text-sm">Preço: 45,00€</p>
+                      </div>
+                      <button class="btn btn-error btn-sm" sec:authorize="hasRole('GERENTE')">Remover</button>
+                    </div>
+                  </li>
+
+				  <li class="p-4 bg-base-200 border-b ml-4 mb-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="font-bold">Bife à Portuguesa</p>
+                        <p class="text-sm">Ingredientes: Bife, alho, cebola, ervas</p>
+                        <p class="text-sm">Preço: 45,00€</p>
+                      </div>
+                      <button class="btn btn-error btn-sm" sec:authorize="hasRole('GERENTE')">Remover</button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+
+		  <div class="tab-pane hidden" id="peixe">
+            <div class="card bg-base-100 shadow-lg mb-6">
+              <div class="card-body">
+                <div class="flex justify-between items-center mb-4">
+                  <h2 class="card-title">Peixe</h2>
+                  <button class="btn btn-primary btn-sm" sec:authorize="hasRole('GERENTE')">Adicionar Prato</button>
+                </div>
+                <ul class="menu rounded-box flex flex-row">
+                  <li class="p-4 bg-base-200 border-b ml-4 mb-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="font-bold">Salmão Grelhado</p>
+                        <p class="text-sm">Ingredientes: Salmão, limão, ervas</p>
+                        <p class="text-sm">Preço: 21,00€</p>
+                      </div>
+                      <button class="btn btn-error btn-sm" sec:authorize="hasRole('GERENTE')">Remover</button>
+                    </div>
+                  </li>
+
+				  <li class="p-4 bg-base-200 border-b ml-4 mb-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="font-bold">Salmão Grelhado</p>
+                        <p class="text-sm">Ingredientes: Salmão, limão, ervas</p>
+                        <p class="text-sm">Preço: 21,00€</p>
+                      </div>
+                      <button class="btn btn-error btn-sm" sec:authorize="hasRole('GERENTE')">Remover</button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tab-pane hidden" id="bebidas">
+            <div class="card bg-base-100 shadow-lg mb-6">
+              <div class="card-body">
+                <div class="flex justify-between items-center mb-4">
+                  <h2 class="card-title">Bebidas</h2>
+                  <button class="btn btn-primary btn-sm" sec:authorize="hasRole('GERENTE')">Adicionar Prato</button>
+                </div>
+                <ul class="menu rounded-box flex flex-row">
+                  <li class="p-4 bg-base-200 border-b ml-4 mb-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="font-bold">Sumo de Laranja</p>
+                        <p class="text-sm">Ingredientes: Laranja, água, açúcar</p>
+                        <p class="text-sm">Preço: 2,00€</p>
+                      </div>
+                      <button class="btn btn-error btn-sm" sec:authorize="hasRole('GERENTE')">Remover</button>
+                    </div>
+                  </li>
+                  
+				  <li class="p-4 bg-base-200 border-b ml-4 mb-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="font-bold">Sumo de Manga</p>
+                        <p class="text-sm">Ingredientes: Laranja, água, açúcar</p>
+                        <p class="text-sm">Preço: 2,00€</p>
+                      </div>
+                      <button class="btn btn-error btn-sm" sec:authorize="hasRole('GERENTE')">Remover</button>
+                    </div>
+                  </li>
+
+				  <li class="p-4 bg-base-200 border-b ml-4 mb-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="font-bold">Coca-Cola Zero</p>
+                        <p class="text-sm"></p>
+                        <p class="text-sm">Preço: 1,50€</p>
+                      </div>
+                      <button class="btn btn-error btn-sm" sec:authorize="hasRole('GERENTE')">Remover</button>
+                    </div>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tab-pane hidden" id="sobremesas">
+            <div class="card bg-base-100 shadow-lg mb-6">
+              <div class="card-body">
+                <div class="flex justify-between items-center mb-4">
+                  <h2 class="card-title">Sobremesas</h2>
+                  <button class="btn btn-primary btn-sm" sec:authorize="hasRole('GERENTE')">Adicionar Prato</button>
+                </div>
+                <ul class="menu rounded-box flex flex-row">
+                  <li class="p-4 bg-base-200 border-b ml-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="font-bold">Pudim de Leite</p>
+                        <p class="text-sm">Ingredientes: Leite condensado, ovos, caramelo</p>
+                        <p class="text-sm">Preço: 6,00€</p>
+                      </div>
+                      <button class="btn btn-error btn-sm" sec:authorize="hasRole('GERENTE')">Remover</button>
+                    </div>
+                  </li>
+
+				</ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('tab-active'));
+        tabPanes.forEach(pane => pane.classList.add('hidden'));
+        
+        tab.classList.add('tab-active');
+        const target = tab.getAttribute('data-tab');
+        document.getElementById(target).classList.remove('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

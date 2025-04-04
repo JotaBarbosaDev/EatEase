@@ -8,18 +8,6 @@
     "start": "concurrently \"npx tailwindcss -i ./src/main/resources/static/css/app.css -o ./src/main/resources/static/css/output.css --watch\" \"mvn spring-boot:run\""
 
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JotaBarbosaDev/EatEase.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/JotaBarbosaDev/EatEase/issues"
-  },
-  "homepage": "https://github.com/JotaBarbosaDev/EatEase#readme",
-  "description": "",
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "concurrently": "^9.1.2",

@@ -11,6 +11,7 @@ build:
 # Executar o projeto Spring Boot
 run:
 	@echo "Iniciando a aplicação Spring Boot..."
+	npx tailwindcss -i ./src/main/resources/static/css/app.css -o ./src/main/resources/static/css/output.css
 	mvn spring-boot:run
 
 # Criar um binário nativo para Linux
@@ -30,3 +31,8 @@ clean:
 	@echo "Limpando ficheiros antigos..."
 	mvn clean
 	rm -rf target
+
+init:
+	@echo "Iniciando o projeto..."
+	npm install
+	mvn clean install

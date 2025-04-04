@@ -13,9 +13,6 @@ public class Cargo {
     
     private String nome; // Gerente, Funcionário
 
-    @OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Funcionario> funcionarios = new ArrayList<>();
-
     public long getId() {
         return id;
     }
@@ -32,12 +29,4 @@ public class Cargo {
         this.nome = nome;
     }
     
-    // Getter e setter para a lista de funcionários
-    public List<Funcionario> getFuncionarios() {
-        return funcionarios;
-    }
-
-    public void setFuncionarios(List<Funcionario> funcionarios) {
-        this.funcionarios = funcionarios;
-    }
 }

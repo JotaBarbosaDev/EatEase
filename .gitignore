@@ -41,3 +41,8 @@ src/main/resources/static/css/output.css
 
 # Ficheiros de configuração sensíveis (se for o caso, ajusta conforme necessário)
 src/main/resources/application.properties
+
+# tailwind and npx stuff
+package-lock.json
+
+yarn.lock

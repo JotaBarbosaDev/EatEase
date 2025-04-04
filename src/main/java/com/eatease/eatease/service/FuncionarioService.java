@@ -18,17 +18,12 @@ public class FuncionarioService {
         this.cargoRepository = cargoRepository;
     }
 
-    public boolean createFuncionario(String nome, Long cargoId, String username, String password, String email, String telefone) {
+    public boolean createFuncionario(String nome, long cargoId, String username, String password, String email,
+            String telefone) {
         if (funcionarioRepository.findByUsername(username).isEmpty()) {
-            Optional<Cargo> cargoOptional = cargoRepository.findById(cargoId);
-            if (cargoOptional.isEmpty()) {
-                System.err.println("Cargo não encontrado.");
-                return false;
-            }
-            Cargo cargo = cargoOptional.get();
             Funcionario funcionario = new Funcionario();
             funcionario.setNome(nome);
-            funcionario.setCargo(cargo); // Define a associação com o Cargo
+            funcionario.setCargoId(cargoId); // Define a associação com o Cargo
             funcionario.setUsername(username);
             funcionario.setPassword(password);
             funcionario.setEmail(email);

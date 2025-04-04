@@ -24,15 +24,14 @@ public class CustomFuncionarioDetails implements UserDetails {
         return funcionario.getNome();
     }
 
-    public String getCargo() {
-    return funcionario.getCargo() != null ? funcionario.getCargo().getNome() : "";
-}
+    public long getCargoId() {
+        return funcionario.getCargoId();
+    }
 
-    
     public String getEmail() {
         return funcionario.getEmail();
     }
-    
+
     public String getTelefone() {
         return funcionario.getTelefone();
     }
@@ -41,35 +40,36 @@ public class CustomFuncionarioDetails implements UserDetails {
     public String getUsername() {
         return funcionario.getUsername();
     }
-    
+
     @Override
     public String getPassword() {
         return funcionario.getPassword();
     }
-    
+
     @Override
-public Collection<? extends GrantedAuthority> getAuthorities() {
-    String role = "FUNCIONARIO";
-    if (funcionario.getCargo() != null && funcionario.getCargo().getId() == 2L) {
-        role = "GERENTE";
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        String role = "FUNCIONARIO";
+        if (funcionario.getCargoId() == 2L) {
+            role = "GERENTE";
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
     }
-    return List.of(new SimpleGrantedAuthority("ROLE_" + role));
-}
-
-
 
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     @Override
     public boolean isEnabled() {
         return true;

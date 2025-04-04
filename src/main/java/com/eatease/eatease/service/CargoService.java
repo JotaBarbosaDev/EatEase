@@ -24,29 +24,14 @@ public class CargoService {
             cargoRepository.save(cargo);
             System.err.println("Cargo adicionado com sucesso.");
             return true;
-        }else{
+        } else {
             System.err.println("O cargo já existe.");
             return false;
         }
     }
 
-    public boolean adicionarFuncionarioAoCargo(Long cargoId, Funcionario funcionario) {
-    Optional<Cargo> cargoOpt = cargoRepository.findById(cargoId);
-    if (cargoOpt.isPresent()) {
-        Cargo cargo = cargoOpt.get();
-        cargo.getFuncionarios().add(funcionario);
-        cargoRepository.save(cargo);
-        System.out.println("Funcionário adicionado ao cargo com sucesso.");
-        return true;
+    public Optional<Cargo> findById(Long id) {
+        return cargoRepository.findById(id);
     }
-    System.out.println("Cargo não encontrado.");
-    return false;
-}
-
-
-public Optional<Cargo> findById(Long id) {
-    return cargoRepository.findById(id);
-}
-
 
 }

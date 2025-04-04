@@ -17,7 +17,8 @@ public class FuncionarioDTO {
     private String password;
 
     @NotNull(message = "O cargo é obrigatório")
-    private Long cargoId;
+    @Size(min = 0, message = "O cargo deve ser selecionado")
+    private long cargoId;
 
     private String email;
     private String telefone;
@@ -41,10 +42,10 @@ public class FuncionarioDTO {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Long getCargoId() {
+    public long getCargoId() {
         return cargoId;
     }
-    public void setCargoId(Long cargoId) {
+    public void setCargoId(long cargoId) {
         this.cargoId = cargoId; 
     }
     public String getEmail() {

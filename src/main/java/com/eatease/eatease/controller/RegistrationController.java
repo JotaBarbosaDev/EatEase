@@ -45,17 +45,11 @@ public class RegistrationController {
             return "registerFuncionario";
         }
 
-        Optional<Cargo> cargoOpt = cargoRepository.findById(funcionarioDTO.getCargoId());
-        if(cargoOpt.isEmpty()){
-            bindingResult.rejectValue("cargoId", "error.funcionario", "Cargo não encontrado");
-            return "registerFuncionario";
-        }
-
         Funcionario funcionario = new Funcionario();
         funcionario.setNome(funcionarioDTO.getNome());
         funcionario.setUsername(funcionarioDTO.getUsername());
         funcionario.setPassword(passwordEncoder.encode(funcionarioDTO.getPassword()));
-        funcionario.setCargo(cargoOpt.get()); // Define a associação com o Cargo
+        funcionario.setCargoId(funcionarioDTO.getCargoId()); // Define a associação com o Cargo
         funcionario.setEmail(funcionarioDTO.getEmail());
         funcionario.setTelefone(funcionarioDTO.getTelefone());
 

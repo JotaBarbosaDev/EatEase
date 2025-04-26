@@ -3,7 +3,7 @@ package com.eatease.eatease.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "unidadeMedida")
+@Table(name = "ItemIngrediente") // Define a tabela no PostgreSQL
 
 public class ItemIngrediente {
     @Id
@@ -35,5 +35,5 @@ public class ItemIngrediente {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
-    
+
 }

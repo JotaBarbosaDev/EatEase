@@ -1,20 +1,22 @@
 package com.eatease.eatease.model;
 
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
-
 
 @Entity
 @Table(name = "ingredientes")
 
 public class Ingredientes {
 
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nome;
     private int stock;
     private int stock_min;
-    private String unidade_id;
+
+    @Nullable
+    private Long unidade_id;
 
     public long getId() {
         return id;
@@ -48,11 +50,11 @@ public class Ingredientes {
         this.stock_min = stock_min;
     }
 
-    public String getUnidade_id() {
+    public Long getUnidade_id() {
         return unidade_id;
     }
 
-    public void setUnidade_id(String unidade_id) {
+    public void setUnidade_id(Long unidade_id) {
         this.unidade_id = unidade_id;
     }
 

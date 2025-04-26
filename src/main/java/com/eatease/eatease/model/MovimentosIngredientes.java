@@ -2,7 +2,6 @@ package com.eatease.eatease.model;
 
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "movimentosIngredientes")
 
@@ -12,6 +11,8 @@ public class MovimentosIngredientes {
     private Long id;
     private long id_ingrediente;
     private long tipoMovimento_id;
+    private int quantidade;
+    private String data;
 
     public Long getId() {
         return id;
@@ -36,5 +37,21 @@ public class MovimentosIngredientes {
     public void setTipoMovimento_id(long tipoMovimento_id) {
         this.tipoMovimento_id = tipoMovimento_id;
     }
-    
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
 }

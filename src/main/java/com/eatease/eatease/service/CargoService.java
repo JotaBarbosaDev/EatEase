@@ -38,4 +38,10 @@ public class CargoService {
         return cargoRepository.existsById(id);
     }
 
+    public long getCargoId(String nome) {
+        return cargoRepository.findByNome(nome)
+                .map(Cargo::getId)
+                .orElse(-1L);
+    }
+
 }

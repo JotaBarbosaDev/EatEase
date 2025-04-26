@@ -4,6 +4,8 @@ import com.eatease.eatease.model.Funcionario;
 import com.eatease.eatease.model.Cargo;
 import com.eatease.eatease.repository.FuncionarioRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +25,7 @@ public class FuncionarioService {
             System.err.println("O cargo não existe.");
             return false;
         }
+
         if (funcionarioRepository.findByUsername(username).isEmpty()) {
             Funcionario funcionario = new Funcionario();
             funcionario.setNome(nome);
@@ -35,7 +38,7 @@ public class FuncionarioService {
             System.err.println("Funcionário adicionado com sucesso.");
             return true;
         } else {
-            System.err.println("O funcionário já existe.");
+            System.err.println("O funcionário " + username + " já existe.");
             return false;
         }
     }
@@ -110,5 +113,37 @@ public class FuncionarioService {
         return cargoService.findById(funcionarioCargoId)
                 .map(cargo -> cargo.getNome().equalsIgnoreCase(cargoNome))
                 .orElse(false);
+    }
+
+    public boolean deleteFuncionario(long funcionarioId) {
+        Optional<Funcionario> funcionario = funcionarioRepository.findById(funcionarioId);
+        if (funcionario.isPresent()) {
+            funcionarioRepository.delete(funcionario.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public List<Funcionario> getAllFuncionarios() {
+        return funcionarioRepository.findAll();
+    }
+
+    public boolean updateFuncionario(long funcionarioId, String nome, long cargoId, String username, String password,
+            String email, String telefone) {
+        Optional<Funcionario> funcionario = funcionarioRepository.findById(funcionarioId);
+        if (funcionario.isPresent()) {
+            Funcionario f = funcionario.get();
+            f.setNome(nome);
+            f.setCargoId(cargoId);
+            f.setUsername(username);
+            f.setPassword(Login.hashPassword(password));
+            f.setEmail(email);
+            f.setTelefone(telefone);
+            funcionarioRepository.save(f);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

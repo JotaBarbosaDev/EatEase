@@ -20,9 +20,15 @@ public class UnidadeMedidaService {
             unidadeMedidaRepository.save(unidadeMedida);
             System.err.println("Unidade de medida adicionada com sucesso.");
             return true;
-        }else{
+        } else {
             System.err.println("A unidade de medida já existe.");
             return false;
         }
+    }
+
+    public long getUnidadeMedidaId(String nome) {
+        return unidadeMedidaRepository.findByNome(nome)
+                .map(UnidadeMedida::getId)
+                .orElse(-1L);
     }
 }

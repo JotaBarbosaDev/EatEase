@@ -34,4 +34,8 @@ public class CargoService {
         return cargoRepository.findById(id);
     }
 
+    public boolean checkCargoIdExists(Long id) {
+        return cargoRepository.existsById(id);
+    }
+
 }

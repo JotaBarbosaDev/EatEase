@@ -3,7 +3,6 @@ package com.eatease.eatease.service;
 import com.eatease.eatease.model.Funcionario;
 import com.eatease.eatease.model.Cargo;
 import com.eatease.eatease.repository.FuncionarioRepository;
-import com.eatease.eatease.repository.CargoRepository;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -11,21 +10,25 @@ import java.util.Optional;
 public class FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
-    private final CargoRepository cargoRepository;
+    private final CargoService cargoService;
 
-    public FuncionarioService(FuncionarioRepository funcionarioRepository, CargoRepository cargoRepository) {
+    public FuncionarioService(FuncionarioRepository funcionarioRepository, CargoService cargoService) {
         this.funcionarioRepository = funcionarioRepository;
-        this.cargoRepository = cargoRepository;
+        this.cargoService = cargoService;
     }
 
     public boolean createFuncionario(String nome, long cargoId, String username, String password, String email,
             String telefone) {
+        if (cargoService.checkCargoIdExists(cargoId) == false) {
+            System.err.println("O cargo não existe.");
+            return false;
+        }
         if (funcionarioRepository.findByUsername(username).isEmpty()) {
             Funcionario funcionario = new Funcionario();
             funcionario.setNome(nome);
             funcionario.setCargoId(cargoId); // Define a associação com o Cargo
             funcionario.setUsername(username);
-            funcionario.setPassword(password);
+            funcionario.setPassword(Login.hashPassword(password));
             funcionario.setEmail(email);
             funcionario.setTelefone(telefone);
             funcionarioRepository.save(funcionario);
@@ -35,5 +38,77 @@ public class FuncionarioService {
             System.err.println("O funcionário já existe.");
             return false;
         }
+    }
+
+    public Optional<Funcionario> findByUsername(String username) {
+        return funcionarioRepository.findByUsername(username);
+    }
+
+    /**
+     * Verifica se o funcionário possui um determinado cargo pelo ID do cargo
+     * 
+     * @param funcionarioId ID do funcionário
+     * @param cargoId       ID do cargo a ser verificado
+     * @return true se o funcionário possui o cargo especificado, false caso
+     *         contrário
+     */
+    public boolean checkCargoByID(long funcionarioId, long cargoId) {
+        Optional<Funcionario> funcionario = funcionarioRepository.findById(funcionarioId);
+        return funcionario.isPresent() && funcionario.get().getCargoId() == cargoId;
+    }
+
+    /**
+     * Verifica se o funcionário possui um determinado cargo pelo nome do cargo
+     * 
+     * @param funcionarioId ID do funcionário
+     * @param cargoNome     Nome do cargo a ser verificado
+     * @return true se o funcionário possui o cargo especificado, false caso
+     *         contrário
+     */
+    public boolean checkCargoByIDAndName(long funcionarioId, String cargoNome) {
+        Optional<Funcionario> funcionario = funcionarioRepository.findById(funcionarioId);
+        if (funcionario.isEmpty()) {
+            return false;
+        }
+
+        long funcionarioCargoId = funcionario.get().getCargoId();
+        return cargoService.findById(funcionarioCargoId)
+                .map(cargo -> cargo.getNome().equalsIgnoreCase(cargoNome))
+                .orElse(false);
+    }
+
+    /**
+     * Verifica se o funcionário possui um determinado cargo pelo username do
+     * funcionário
+     * 
+     * @param username Username do funcionário
+     * @param cargoId  ID do cargo a ser verificado
+     * @return true se o funcionário possui o cargo especificado, false caso
+     *         contrário
+     */
+    public boolean checkCargoByUsername(String username, long cargoId) {
+        Optional<Funcionario> funcionario = findByUsername(username);
+        return funcionario.isPresent() && funcionario.get().getCargoId() == cargoId;
+    }
+
+    /**
+     * Verifica se o funcionário possui um determinado cargo pelo username do
+     * funcionário e nome do cargo
+     * 
+     * @param username  Username do funcionário
+     * @param cargoNome Nome do cargo a ser verificado
+     * @return true se o funcionário possui o cargo especificado, false caso
+     *         contrário
+     */
+    public boolean checkCargoByUsernameAndName(String username, String cargoNome) {
+        Optional<Funcionario> funcionario = findByUsername(username);
+        if (funcionario.isEmpty()) {
+            return false;
+        }
+
+        long funcionarioCargoId = funcionario.get().getCargoId();
+        return cargoService.findById(funcionarioCargoId)
+                .map(cargo -> cargo.getNome().equalsIgnoreCase(cargoNome))
+                .orElse(false);
     }
 }

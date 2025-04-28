@@ -10,8 +10,8 @@ public class MovimentosIngredientes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private long id_ingrediente;
-    private long tipoMovimento_id;
-    private int quantidade;
+    private int quantidade_anterior;
+    private int quantidade_atualizada;
     private String data;
 
     public Long getId() {
@@ -30,20 +30,20 @@ public class MovimentosIngredientes {
         this.id_ingrediente = id_ingrediente;
     }
 
-    public long getTipoMovimento_id() {
-        return tipoMovimento_id;
+    public int getQuantidade_anterior() {
+        return quantidade_anterior;
     }
 
-    public void setTipoMovimento_id(long tipoMovimento_id) {
-        this.tipoMovimento_id = tipoMovimento_id;
+    public void setQuantidade_anterior(int quantidade_anterior) {
+        this.quantidade_anterior = quantidade_anterior;
     }
 
-    public int getQuantidade() {
-        return quantidade;
+    public int getQuantidade_atualizada() {
+        return quantidade_atualizada;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setQuantidade_atualizada(int quantidade_atualizada) {
+        this.quantidade_atualizada = quantidade_atualizada;
     }
 
     public String getData() {

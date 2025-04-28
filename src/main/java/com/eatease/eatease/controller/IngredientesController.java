@@ -103,46 +103,4 @@ public class IngredientesController {
                     .body("Não foi possível remover o ingrediente.");
         }
     }
-
-    @PostMapping("/addStock")
-    public ResponseEntity<String> addStock(
-            @RequestParam long id,
-            @RequestParam int stock,
-            @Parameter(hidden = true) HttpServletRequest request) {
-
-        // Verifica se o utilizador está autenticado
-        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
-        if (validUsername == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
-        }
-
-        boolean res = ingredientesService.addStock(id, stock);
-        if (res) {
-            return ResponseEntity.ok("Stock adicionado com sucesso.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível adicionar o stock.");
-        }
-    }
-
-    @PostMapping("/removeStock")
-    public ResponseEntity<String> removeStock(
-            @RequestParam long id,
-            @RequestParam int stock,
-            @Parameter(hidden = true) HttpServletRequest request) {
-
-        // Verifica se o utilizador está autenticado
-        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
-        if (validUsername == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
-        }
-
-        boolean res = ingredientesService.removeStock(id, stock);
-        if (res) {
-            return ResponseEntity.ok("Stock removido com sucesso.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível remover o stock.");
-        }
-    }
 }

@@ -27,10 +27,10 @@ public class Testing {
         }
 
         public void criar() {
-                cargoService.createCargo("FUNCIONARIO");
-                cargoService.createCargo("GERENTE");
-                cargoService.createCargo("COZINHEIRO");
-                cargoService.createCargo("LIMPEZA");
+                cargoService.createCargo("FUNCIONARIO"); // id 1
+                cargoService.createCargo("GERENTE"); // id 2
+                cargoService.createCargo("COZINHEIRO"); // id 3
+                cargoService.createCargo("LIMPEZA"); // id 4
 
                 estadoPedidoService.createEstadoPedido("PENDDING");
                 estadoPedidoService.createEstadoPedido("READY");
@@ -51,6 +51,8 @@ public class Testing {
                                 "jota@email.pt", "213123123");
                 funcionarioService.createFuncionario("Rafa", Long.parseLong("1"), "rafa", "rafa",
                                 "rafa@email.fr", "213123123");
+                funcionarioService.createFuncionario("Cozinheiro", Long.parseLong("3"), "coz", "coz",
+                                "coz", "213123123");
                 ingredientesService.createIngredientes("Arroz", 10000, 1000, "gramas");
                 ingredientesService.createIngredientes("Massa", 20000, 1000, "quilos");
                 ingredientesService.createIngredientes("Batata", 35000, 5000, "unidades");

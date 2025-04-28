@@ -46,6 +46,10 @@ public class IngredientesService {
         return ingredientesRepository.findAll();
     }
 
+    public Ingredientes getIngredienteById(long id) {
+        return ingredientesRepository.findById(id).orElse(null);
+    }
+
     public boolean updateIngredientes(long id, String nome, int stock, int stock_min, String unidade) {
         // Verifica se a unidade de medida existe
         long unidade_id = unidadeMedidaService.getUnidadeMedidaId(unidade);

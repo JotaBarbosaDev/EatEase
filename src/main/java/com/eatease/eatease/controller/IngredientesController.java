@@ -28,10 +28,10 @@ public class IngredientesController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createIngrediente(
-            @RequestParam String nome,
-            @RequestParam int stock,
-            @RequestParam int stock_min,
-            @RequestParam String unidadeMedida,
+            @RequestBody String nome,
+            @RequestBody int stock,
+            @RequestBody int stock_min,
+            @RequestBody String unidadeMedida,
             @Parameter(hidden = true) HttpServletRequest request) {
 
         // Verifica se o utilizador está autenticado
@@ -63,10 +63,10 @@ public class IngredientesController {
     @PostMapping("/edit")
     public ResponseEntity<String> editIngrediente(
             @RequestParam long id,
-            @RequestParam String nome,
-            @RequestParam int stock,
-            @RequestParam int stock_min,
-            @RequestParam String unidadeMedida,
+            @RequestBody String nome,
+            @RequestBody int stock,
+            @RequestBody int stock_min,
+            @RequestBody String unidadeMedida,
             @Parameter(hidden = true) HttpServletRequest request) {
 
         // Verifica se o utilizador está autenticado

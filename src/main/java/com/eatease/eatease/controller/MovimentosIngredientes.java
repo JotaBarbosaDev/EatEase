@@ -31,7 +31,7 @@ public class MovimentosIngredientes {
     @PostMapping("/movStock")
     public ResponseEntity<String> addStock(
             @RequestParam long id_ingrediente,
-            @RequestParam int quantidade,
+            @RequestBody int quantidade,
             @Parameter(hidden = true) HttpServletRequest request) {
 
         // Verifica se o utilizador está autenticado

@@ -52,8 +52,8 @@ public class FuncionarioController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(
-            @RequestParam String username,
-            @RequestParam String password,
+            @RequestBody String username,
+            @RequestBody String password,
             @Parameter(hidden = true) // esconder do Swagger
             HttpServletResponse response) {
 

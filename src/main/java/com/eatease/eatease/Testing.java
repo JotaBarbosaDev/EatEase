@@ -4,6 +4,7 @@ import com.eatease.eatease.service.CargoService;
 import com.eatease.eatease.service.EstadoPedidoService;
 import com.eatease.eatease.service.FuncionarioService;
 import com.eatease.eatease.service.IngredientesService;
+import com.eatease.eatease.service.TipoPratoService;
 import com.eatease.eatease.service.UnidadeMedidaService;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +16,13 @@ public class Testing {
         private final EstadoPedidoService estadoPedidoService;
         private final FuncionarioService funcionarioService;
         private final IngredientesService ingredientesService;
+        private final TipoPratoService tipoPratoService;
 
         public Testing(CargoService cargoService, EstadoPedidoService estadoPedidoService,
                         FuncionarioService funcionarioService, IngredientesService ingredientesService,
-                        UnidadeMedidaService unidadeMedidaService) {
+                        UnidadeMedidaService unidadeMedidaService,
+                        TipoPratoService tipoPratoService) {
+                this.tipoPratoService = tipoPratoService;
                 this.cargoService = cargoService;
                 this.estadoPedidoService = estadoPedidoService;
                 this.funcionarioService = funcionarioService;
@@ -27,6 +31,7 @@ public class Testing {
         }
 
         public void criar() {
+
                 cargoService.createCargo("FUNCIONARIO"); // id 1
                 cargoService.createCargo("GERENTE"); // id 2
                 cargoService.createCargo("COZINHEIRO"); // id 3
@@ -57,5 +62,9 @@ public class Testing {
                 ingredientesService.createIngredientes("Massa", 20000, 1000, "quilos");
                 ingredientesService.createIngredientes("Batata", 35000, 5000, "unidades");
 
+                tipoPratoService.createTipoPrato("Prato Principal");
+                tipoPratoService.createTipoPrato("Entradas");
+                tipoPratoService.createTipoPrato("Bebida");
+                tipoPratoService.createTipoPrato("Sobremesa");
         }
 }

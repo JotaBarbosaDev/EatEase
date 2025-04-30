@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import com.eatease.eatease.dto.ItemRequestDTO;
 import com.eatease.eatease.model.Item;
 import com.eatease.eatease.service.FuncionarioService;
 import com.eatease.eatease.service.IngredientesService;
@@ -17,6 +18,7 @@ import com.eatease.eatease.service.Login;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Cookie;
+import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Parameter; // springdoc-openapi
 
 @RestController
@@ -33,12 +35,7 @@ public class ItemController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createItem(
-            @RequestBody String nome,
-            @RequestBody long tipoPratoId,
-            @RequestBody float preco,
-            @RequestBody long ingredientes_id[],
-            @RequestBody boolean eCpmposto,
-            @RequestBody int stockAtual,
+            @Valid @RequestBody ItemRequestDTO requestDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
 
         // Verifica se o utilizador está autenticado
@@ -47,7 +44,13 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        boolean res = itemService.createItem(nome, tipoPratoId, preco, ingredientes_id, eCpmposto, stockAtual);
+        boolean res = itemService.createItem(
+                requestDTO.getNome(),
+                requestDTO.getTipoPrato_id(),
+                requestDTO.getPreco(),
+                requestDTO.getIngredientes_id(),
+                requestDTO.isECpmposto(),
+                requestDTO.getStockAtual());
         if (res) {
             return ResponseEntity.ok("Item adicionado com sucesso.");
         } else {
@@ -82,12 +85,7 @@ public class ItemController {
     @PostMapping("/edit")
     public ResponseEntity<?> editItem(
             @RequestParam long id,
-            @RequestBody String nome,
-            @RequestBody long tipoPratoId,
-            @RequestBody float preco,
-            @RequestBody long ingredientes_id[],
-            @RequestBody boolean eCpmposto,
-            @RequestBody int stockAtual,
+            @Valid @RequestBody ItemRequestDTO requestDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
 
         // Verifica se o utilizador está autenticado
@@ -96,7 +94,14 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        Optional<Item> res = itemService.editItem(id, nome, tipoPratoId, preco, ingredientes_id, eCpmposto, stockAtual);
+        Optional<Item> res = itemService.editItem(
+                id,
+                requestDTO.getNome(),
+                requestDTO.getTipoPrato_id(),
+                requestDTO.getPreco(),
+                requestDTO.getIngredientes_id(),
+                requestDTO.isECpmposto(),
+                requestDTO.getStockAtual());
         if (res != null && res.isPresent()) {
             return ResponseEntity.ok(res.get());
         } else {

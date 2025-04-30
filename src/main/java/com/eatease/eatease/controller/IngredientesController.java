@@ -5,13 +5,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import com.eatease.eatease.dto.IngredientesRequestDTO;
+import com.eatease.eatease.dto.IngredientesResponseDTO;
+import com.eatease.eatease.model.Ingredientes;
 import com.eatease.eatease.service.FuncionarioService;
 import com.eatease.eatease.service.IngredientesService;
 import com.eatease.eatease.service.Login;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Cookie;
+import jakarta.validation.Valid;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import io.swagger.v3.oas.annotations.Parameter; // springdoc-openapi
 
 @RestController
@@ -28,10 +34,7 @@ public class IngredientesController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createIngrediente(
-            @RequestBody String nome,
-            @RequestBody int stock,
-            @RequestBody int stock_min,
-            @RequestBody String unidadeMedida,
+            @Valid @RequestBody IngredientesRequestDTO requestDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
 
         // Verifica se o utilizador está autenticado
@@ -40,7 +43,12 @@ public class IngredientesController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        boolean res = ingredientesService.createIngredientes(nome, stock, stock_min, unidadeMedida);
+        boolean res = ingredientesService.createIngredientes(
+                requestDTO.getNome(), 
+                requestDTO.getStock(), 
+                requestDTO.getStock_min(), 
+                requestDTO.getUnidadeMedida());
+                
         if (res) {
             return ResponseEntity.ok("Ingrediente adicionado com sucesso.");
         } else {
@@ -57,16 +65,18 @@ public class IngredientesController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        return ResponseEntity.ok(ingredientesService.getAllIngredientes());
+        List<Ingredientes> ingredientes = ingredientesService.getAllIngredientes();
+        List<IngredientesResponseDTO> responseDTOs = ingredientes.stream()
+                .map(IngredientesResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+                
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @PostMapping("/edit")
     public ResponseEntity<String> editIngrediente(
             @RequestParam long id,
-            @RequestBody String nome,
-            @RequestBody int stock,
-            @RequestBody int stock_min,
-            @RequestBody String unidadeMedida,
+            @Valid @RequestBody IngredientesRequestDTO requestDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
 
         // Verifica se o utilizador está autenticado
@@ -75,7 +85,13 @@ public class IngredientesController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        boolean res = ingredientesService.updateIngredientes(id, nome, stock, stock_min, unidadeMedida);
+        boolean res = ingredientesService.updateIngredientes(
+                id, 
+                requestDTO.getNome(), 
+                requestDTO.getStock(), 
+                requestDTO.getStock_min(), 
+                requestDTO.getUnidadeMedida());
+                
         if (res) {
             return ResponseEntity.ok("Ingrediente editado com sucesso.");
         } else {
@@ -101,6 +117,26 @@ public class IngredientesController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Não foi possível remover o ingrediente.");
+        }
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getIngredienteById(
+            @PathVariable long id,
+            @Parameter(hidden = true) HttpServletRequest request) {
+            
+        // Verifica se o utilizador está autenticado
+        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
+        if (validUsername == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
+        }
+        
+        Ingredientes ingrediente = ingredientesService.getIngredienteById(id);
+        if (ingrediente != null) {
+            return ResponseEntity.ok(IngredientesResponseDTO.fromEntity(ingrediente));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Ingrediente não encontrado.");
         }
     }
 }

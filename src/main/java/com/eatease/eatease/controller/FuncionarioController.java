@@ -11,6 +11,7 @@ import jakarta.servlet.http.Cookie;
 import io.swagger.v3.oas.annotations.Parameter; // springdoc-openapi
 
 import com.eatease.eatease.dto.FuncionarioDTO;
+import com.eatease.eatease.dto.LoginRequestDTO;
 import com.eatease.eatease.service.CargoService;
 import com.eatease.eatease.service.FuncionarioService;
 import com.eatease.eatease.service.Login;
@@ -52,26 +53,17 @@ public class FuncionarioController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(
-            @RequestBody String username,
-            @RequestBody String password,
+            @RequestBody LoginRequestDTO loginRequest,
             @Parameter(hidden = true) // esconder do Swagger
             HttpServletResponse response) {
 
-        String validUsername = Login.login(username, password, response);
+        String validUsername = Login.login(loginRequest.getUsername(), loginRequest.getPassword(), response);
         return validUsername == null
                 ? ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas")
                 : ResponseEntity.ok("Login bem-sucedido");
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test(@Parameter(hidden = true) HttpServletRequest request) {
-
-        String validUsername = Login.checkLogin(request);
-        return validUsername == null
-                ? ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado ou sem permissões")
-                : ResponseEntity.ok("Autenticado");
-    }
-
+  
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@Parameter(hidden = true) HttpServletRequest request,
             @Parameter(hidden = true) HttpServletResponse response) {

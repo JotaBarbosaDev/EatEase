@@ -40,7 +40,7 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public Optional<List<Item>> getByPratoId(long tipoPratoId) {
+    public List<Item> getByPratoId(long tipoPratoId) {
         return itemRepository.findByTipoPratoId(tipoPratoId);
     }
 

@@ -114,4 +114,8 @@ public class IngredientesService {
             return false;
         }
     }
+
+    public boolean doesIngredienteExist(long id) {
+        return ingredientesRepository.existsById(id);
+    }
 }

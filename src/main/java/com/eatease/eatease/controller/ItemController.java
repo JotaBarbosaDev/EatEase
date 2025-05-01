@@ -34,7 +34,7 @@ public class ItemController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createItem(
+    public ResponseEntity<?> createItem(
             @Valid @RequestBody ItemRequestDTO requestDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
 
@@ -44,18 +44,18 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        boolean res = itemService.createItem(
+        String res = itemService.createItem(
                 requestDTO.getNome(),
-                requestDTO.getTipoPrato_id(),
+                requestDTO.getTipoPratoId(),
                 requestDTO.getPreco(),
-                requestDTO.getIngredientes_id(),
-                requestDTO.isECpmposto(),
+                requestDTO.getIngredientes(),
+                requestDTO.isComposto(),
                 requestDTO.getStockAtual());
-        if (res) {
+        if (res != null) {
             return ResponseEntity.ok("Item adicionado com sucesso.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível adicionar o item nome repetido ou tipo de prato não existente.");
+                    .body(res);
         }
     }
 
@@ -94,19 +94,18 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        Optional<Item> res = itemService.editItem(
+        String res = itemService.editItem(
                 id,
                 requestDTO.getNome(),
-                requestDTO.getTipoPrato_id(),
+                requestDTO.getTipoPratoId(),
                 requestDTO.getPreco(),
-                requestDTO.getIngredientes_id(),
-                requestDTO.isECpmposto(),
+                requestDTO.getIngredientes(),
+                requestDTO.isComposto(),
                 requestDTO.getStockAtual());
-        if (res != null && res.isPresent()) {
-            return ResponseEntity.ok(res.get());
+        if (res != null) {
+            return ResponseEntity.ok("Item editado com sucesso.");
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível editar o item nome repetido ou tipo de prato não existente.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
         }
     }
 

@@ -1,30 +1,36 @@
+// src/main/java/com/eatease/eatease/dto/ItemRequestDTO.java
 package com.eatease.eatease.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 public class ItemRequestDTO {
+
     @NotBlank(message = "O nome não pode estar vazio")
     private String nome;
 
     @NotNull(message = "O ID do tipo de prato é obrigatório")
-    private Long tipoPrato_id;
+    private Long tipoPratoId;
 
     @NotNull(message = "O preço é obrigatório")
     @Min(value = 0, message = "O preço não pode ser negativo")
     private Float preco;
 
     @NotNull(message = "A lista de ingredientes é obrigatória")
-    private long[] ingredientes_id;
+    @Valid
+    private List<IngredienteQuantDTO> ingredientes;
 
-    private boolean eCpmposto;
+    private boolean composto;
 
     @NotNull(message = "O stock atual é obrigatório")
     @Min(value = 0, message = "O stock não pode ser negativo")
     private Integer stockAtual;
 
-    // Getters and Setters
+    /* getters & setters – usa sempre WRAPPERS (Long/Float/Integer) */
     public String getNome() {
         return nome;
     }
@@ -33,12 +39,12 @@ public class ItemRequestDTO {
         this.nome = nome;
     }
 
-    public Long getTipoPrato_id() {
-        return tipoPrato_id;
+    public Long getTipoPratoId() {
+        return tipoPratoId;
     }
 
-    public void setTipoPrato_id(Long tipoPrato_id) {
-        this.tipoPrato_id = tipoPrato_id;
+    public void setTipoPratoId(Long tipoPratoId) {
+        this.tipoPratoId = tipoPratoId;
     }
 
     public Float getPreco() {
@@ -49,20 +55,20 @@ public class ItemRequestDTO {
         this.preco = preco;
     }
 
-    public long[] getIngredientes_id() {
-        return ingredientes_id;
+    public List<IngredienteQuantDTO> getIngredientes() {
+        return ingredientes;
     }
 
-    public void setIngredientes_id(long[] ingredientes_id) {
-        this.ingredientes_id = ingredientes_id;
+    public void setIngredientes(List<IngredienteQuantDTO> ingredientes) {
+        this.ingredientes = ingredientes;
     }
 
-    public boolean isECpmposto() {
-        return eCpmposto;
+    public boolean isComposto() {
+        return composto;
     }
 
-    public void setECpmposto(boolean eCpmposto) {
-        this.eCpmposto = eCpmposto;
+    public void setComposto(boolean composto) {
+        this.composto = composto;
     }
 
     public Integer getStockAtual() {

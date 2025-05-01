@@ -1,6 +1,8 @@
 package com.eatease.eatease.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "item")
@@ -13,9 +15,13 @@ public class Item {
     private String nome;
     private long tipoPrato_id;
     private float preco;
-    private long ingredientes_id[];
+
+    @Column(columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private String ingredientesJson; // Stores JSON array of {ingrediente_id: X, quantidade: Y}
+
     private boolean eCpmposto;
-    private int stockAtual; 
+    private int stockAtual;
 
     public long getId() {
         return id;
@@ -49,12 +55,12 @@ public class Item {
         this.preco = preco;
     }
 
-    public long[] getIngrediente_id() {
-        return ingredientes_id;
+    public String getIngredientesJson() {
+        return ingredientesJson;
     }
 
-    public void setIngrediente_id(long[] ingrediente_id) {
-        this.ingredientes_id = ingrediente_id;
+    public void setIngredientesJson(String ingredientesJson) {
+        this.ingredientesJson = ingredientesJson;
     }
 
     public boolean iseCpmposto() {

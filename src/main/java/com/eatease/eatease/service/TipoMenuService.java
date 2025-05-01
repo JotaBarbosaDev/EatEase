@@ -3,6 +3,7 @@ package com.eatease.eatease.service;
 import com.eatease.eatease.model.TipoMenu;
 import com.eatease.eatease.repository.TipoMenuRepository;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class TipoMenuService {
@@ -20,9 +21,13 @@ public class TipoMenuService {
             tipoMenuRepository.save(tipoMenu);
             System.err.println("Tipo de menu adicionado com sucesso.");
             return true;
-        }else{
+        } else {
             System.err.println("O tipo de menu já existe.");
             return false;
         }
+    }
+
+    public List<TipoMenu> getAllTipoMenus() {
+        return tipoMenuRepository.findAll();
     }
 }

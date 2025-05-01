@@ -33,7 +33,7 @@ public class IngredientesController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createIngrediente(
+    public ResponseEntity<?> createIngrediente(
             @Valid @RequestBody IngredientesRequestDTO requestDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
 
@@ -43,17 +43,17 @@ public class IngredientesController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        boolean res = ingredientesService.createIngredientes(
-                requestDTO.getNome(), 
-                requestDTO.getStock(), 
-                requestDTO.getStock_min(), 
+        String res = ingredientesService.createIngredientes(
+                requestDTO.getNome(),
+                requestDTO.getStock(),
+                requestDTO.getStock_min(),
                 requestDTO.getUnidadeMedida());
-                
-        if (res) {
+
+        if (res != null) {
             return ResponseEntity.ok("Ingrediente adicionado com sucesso.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível adicionar o ingrediente nome repetido ou unidade de medida não existente.");
+                    .body(res);
         }
     }
 
@@ -69,7 +69,7 @@ public class IngredientesController {
         List<IngredientesResponseDTO> responseDTOs = ingredientes.stream()
                 .map(IngredientesResponseDTO::fromEntity)
                 .collect(Collectors.toList());
-                
+
         return ResponseEntity.ok(responseDTOs);
     }
 
@@ -85,18 +85,18 @@ public class IngredientesController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        boolean res = ingredientesService.updateIngredientes(
-                id, 
-                requestDTO.getNome(), 
-                requestDTO.getStock(), 
-                requestDTO.getStock_min(), 
+        String res = ingredientesService.updateIngredientes(
+                id,
+                requestDTO.getNome(),
+                requestDTO.getStock(),
+                requestDTO.getStock_min(),
                 requestDTO.getUnidadeMedida());
-                
-        if (res) {
+
+        if (res != null) {
             return ResponseEntity.ok("Ingrediente editado com sucesso.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível editar o ingrediente nome repetido ou unidade de medida não existente.");
+                    .body(res);
         }
     }
 
@@ -119,18 +119,18 @@ public class IngredientesController {
                     .body("Não foi possível remover o ingrediente.");
         }
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getIngredienteById(
             @PathVariable long id,
             @Parameter(hidden = true) HttpServletRequest request) {
-            
+
         // Verifica se o utilizador está autenticado
         String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
         if (validUsername == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
-        
+
         Ingredientes ingrediente = ingredientesService.getIngredienteById(id);
         if (ingrediente != null) {
             return ResponseEntity.ok(IngredientesResponseDTO.fromEntity(ingrediente));

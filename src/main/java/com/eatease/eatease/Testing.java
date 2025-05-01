@@ -1,9 +1,11 @@
 package com.eatease.eatease;
 
+import com.eatease.eatease.model.TipoMenu;
 import com.eatease.eatease.service.CargoService;
 import com.eatease.eatease.service.EstadoPedidoService;
 import com.eatease.eatease.service.FuncionarioService;
 import com.eatease.eatease.service.IngredientesService;
+import com.eatease.eatease.service.TipoMenuService;
 import com.eatease.eatease.service.TipoPratoService;
 import com.eatease.eatease.service.UnidadeMedidaService;
 import org.springframework.stereotype.Component;
@@ -17,11 +19,14 @@ public class Testing {
         private final FuncionarioService funcionarioService;
         private final IngredientesService ingredientesService;
         private final TipoPratoService tipoPratoService;
+        private final TipoMenuService tipoMenuService;
 
         public Testing(CargoService cargoService, EstadoPedidoService estadoPedidoService,
                         FuncionarioService funcionarioService, IngredientesService ingredientesService,
                         UnidadeMedidaService unidadeMedidaService,
-                        TipoPratoService tipoPratoService) {
+                        TipoPratoService tipoPratoService,
+                        TipoMenuService tipoMenuService) {
+                this.tipoMenuService = tipoMenuService;
                 this.tipoPratoService = tipoPratoService;
                 this.cargoService = cargoService;
                 this.estadoPedidoService = estadoPedidoService;
@@ -66,5 +71,12 @@ public class Testing {
                 tipoPratoService.createTipoPrato("Entradas");
                 tipoPratoService.createTipoPrato("Bebida");
                 tipoPratoService.createTipoPrato("Sobremesa");
+
+                tipoMenuService.createTipoMenu("Almoço");
+                tipoMenuService.createTipoMenu("Jantar");
+                tipoMenuService.createTipoMenu("Pequeno Almoço");
+                tipoMenuService.createTipoMenu("Bebida");
+                tipoMenuService.createTipoMenu("Vinho");
+                tipoMenuService.createTipoMenu("Sobremesa");
         }
 }

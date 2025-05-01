@@ -19,12 +19,12 @@ public class IngredientesService {
         this.unidadeMedidaService = unidadeMedidaService;
     }
 
-    public boolean createIngredientes(String nome, int stock, int stock_min, String unidade) {
+    public String createIngredientes(String nome, int stock, int stock_min, String unidade) {
         // Verifica se a unidade de medida existe
         long unidade_id = unidadeMedidaService.getUnidadeMedidaId(unidade);
         if (unidade_id == -1) {
             System.err.println("A unidade de medida não existe.");
-            return false;
+            return "A unidade de medida não existe.";
         }
 
         if (ingredientesRepository.findByNome(nome).isEmpty()) {
@@ -35,10 +35,10 @@ public class IngredientesService {
             ingredientes.setUnidade_id(unidade_id);
             ingredientesRepository.save(ingredientes);
             System.err.println("Ingrediente adicionado com sucesso.");
-            return true;
+            return "Ingrediente adicionado com sucesso.";
         } else {
             System.err.println("O ingredientes já existe.");
-            return false;
+            return "O ingredientes já existe.";
         }
     }
 
@@ -50,12 +50,12 @@ public class IngredientesService {
         return ingredientesRepository.findById(id).orElse(null);
     }
 
-    public boolean updateIngredientes(long id, String nome, int stock, int stock_min, String unidade) {
+    public String updateIngredientes(long id, String nome, int stock, int stock_min, String unidade) {
         // Verifica se a unidade de medida existe
         long unidade_id = unidadeMedidaService.getUnidadeMedidaId(unidade);
         if (unidade_id == -1) {
             System.err.println("A unidade de medida não existe.");
-            return false;
+            return "A unidade de medida não existe.";
         }
 
         Ingredientes ingredientes = ingredientesRepository.findById(id).orElse(null);
@@ -66,10 +66,10 @@ public class IngredientesService {
             ingredientes.setUnidade_id(unidade_id);
             ingredientesRepository.save(ingredientes);
             System.err.println("Ingrediente atualizado com sucesso.");
-            return true;
+            return "Ingrediente atualizado com sucesso.";
         } else {
             System.err.println("O ingrediente não existe.");
-            return false;
+            return "O ingrediente não existe.";
         }
     }
 

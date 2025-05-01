@@ -13,12 +13,21 @@ public class MenuService {
         this.menuRepository = menuRepository;
     }
 
-    public boolean createMenu(long items_id[], long tipoMenu[]) {
-            Menu menu = new Menu();
-            menu.setItems_id(items_id);
-            menu.setTipoMenu(tipoMenu);
+    public String createMenu(String nome, String descricao, long[] items_id, long tipoMenu) {
+        Menu menu = new Menu();
+        menu.setNome(nome);
+        menu.setDescricao(descricao);
+        menu.setItems_id(items_id);
+        menu.setTipoMenu(tipoMenu);
+
+        if (menuRepository.findByNome(nome).isEmpty()) {
             menuRepository.save(menu);
             System.err.println("Menu adicionado com sucesso.");
-            return true;
+            return null;
+        } else {
+            System.err.println("O menu já existe.");
+            return "O menu já existe.";
+        }
+
     }
 }

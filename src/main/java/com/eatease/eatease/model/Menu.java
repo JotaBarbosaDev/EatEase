@@ -10,8 +10,10 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String nome;
+    private String descricao;
     private long items_id[];
-    private long tipoMenu[];
+    private long tipoMenu;
 
     public long getId() {
         return id;
@@ -29,13 +31,25 @@ public class Menu {
         this.items_id = items_id;
     }
 
-    public long[] getTipoMenu() {
+    public long getTipoMenu() {
         return tipoMenu;
     }
 
-    public void setTipoMenu(long[] tipoMenu) {
+    public void setTipoMenu(long tipoMenu) {
         this.tipoMenu = tipoMenu;
     }
 
-    
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 }

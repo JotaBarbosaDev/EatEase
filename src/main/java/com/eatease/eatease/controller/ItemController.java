@@ -1,23 +1,12 @@
 package com.eatease.eatease.controller;
-
 import org.springframework.http.ResponseEntity;
-
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import com.eatease.eatease.dto.ItemRequestDTO;
-import com.eatease.eatease.model.Item;
-import com.eatease.eatease.service.FuncionarioService;
-import com.eatease.eatease.service.IngredientesService;
 import com.eatease.eatease.service.ItemService;
 import com.eatease.eatease.service.Login;
-
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Cookie;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Parameter; // springdoc-openapi
 
@@ -26,10 +15,8 @@ import io.swagger.v3.oas.annotations.Parameter; // springdoc-openapi
 @Validated
 public class ItemController {
     private final ItemService itemService;
-    private final FuncionarioService funcionarioService;
 
-    public ItemController(ItemService itemService, FuncionarioService funcionarioService) {
-        this.funcionarioService = funcionarioService;
+    public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 

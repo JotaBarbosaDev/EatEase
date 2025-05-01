@@ -42,7 +42,7 @@ public class Testing {
                 cargoService.createCargo("COZINHEIRO"); // id 3
                 cargoService.createCargo("LIMPEZA"); // id 4
 
-                estadoPedidoService.createEstadoPedido("PENDDING");
+                estadoPedidoService.createEstadoPedido("PENDING");
                 estadoPedidoService.createEstadoPedido("READY");
                 estadoPedidoService.createEstadoPedido("IN_PREPARATION");
                 estadoPedidoService.createEstadoPedido("SERVED");

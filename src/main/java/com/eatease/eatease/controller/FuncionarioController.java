@@ -7,7 +7,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Cookie;
 import io.swagger.v3.oas.annotations.Parameter; // springdoc-openapi
 
 import com.eatease.eatease.dto.FuncionarioDTO;
@@ -22,12 +21,10 @@ import com.eatease.eatease.service.Login;
 public class FuncionarioController {
 
     private final FuncionarioService funcionarioService;
-    private final CargoService cargoService;
 
     public FuncionarioController(FuncionarioService funcionarioService,
             CargoService cargoService) {
         this.funcionarioService = funcionarioService;
-        this.cargoService = cargoService;
         Login.setFuncionarioService(funcionarioService);
         Login.setCargoService(cargoService);
     }
@@ -63,7 +60,6 @@ public class FuncionarioController {
                 : ResponseEntity.ok("Login bem-sucedido");
     }
 
-  
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@Parameter(hidden = true) HttpServletRequest request,
             @Parameter(hidden = true) HttpServletResponse response) {

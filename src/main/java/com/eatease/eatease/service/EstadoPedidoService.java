@@ -21,9 +21,15 @@ public class EstadoPedidoService {
             estadoPedidoRepository.save(estadoPedido);
             System.err.println("Estado de pedido adicionado com sucesso.");
             return true;
-        }else{
+        } else {
             System.err.println("O estado de pedido já existe.");
             return false;
         }
+    }
+
+    public Long getEstadoPedidoId(String nome) {
+        return estadoPedidoRepository.findByNome(nome)
+                .map(EstadoPedido::getId)
+                .orElse(null);
     }
 }

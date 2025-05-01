@@ -30,4 +30,8 @@ public class TipoPratoService {
     public List<TipoPrato> getAllTipoPratos() {
         return tipoPratoRepository.findAll();
     }
+
+    public boolean checkTipoPratoExists(Long id) {
+        return tipoPratoRepository.existsById(id);
+    }
 }

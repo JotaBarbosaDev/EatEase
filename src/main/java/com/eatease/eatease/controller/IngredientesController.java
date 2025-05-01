@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import com.eatease.eatease.dto.IngredientesRequestDTO;
 import com.eatease.eatease.dto.IngredientesResponseDTO;
 import com.eatease.eatease.model.Ingredientes;
-import com.eatease.eatease.service.FuncionarioService;
 import com.eatease.eatease.service.IngredientesService;
 import com.eatease.eatease.service.Login;
 
@@ -25,10 +24,8 @@ import io.swagger.v3.oas.annotations.Parameter; // springdoc-openapi
 @Validated
 public class IngredientesController {
     private final IngredientesService ingredientesService;
-    private final FuncionarioService funcionarioService;
 
-    public IngredientesController(IngredientesService ingredientesService, FuncionarioService funcionarioService) {
-        this.funcionarioService = funcionarioService;
+    public IngredientesController(IngredientesService ingredientesService) {
         this.ingredientesService = ingredientesService;
     }
 

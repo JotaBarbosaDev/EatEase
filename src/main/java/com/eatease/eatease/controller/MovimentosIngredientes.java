@@ -7,13 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.eatease.eatease.dto.MovimentosIngredientesRequestDTO;
 import com.eatease.eatease.service.FuncionarioService;
-import com.eatease.eatease.service.IngredientesService;
 import com.eatease.eatease.service.Login;
 import com.eatease.eatease.service.MovimentosIngredientesService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Cookie;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Parameter; // springdoc-openapi
 
@@ -21,12 +18,10 @@ import io.swagger.v3.oas.annotations.Parameter; // springdoc-openapi
 @RequestMapping("/movimentosIngredientes")
 @Validated
 public class MovimentosIngredientes {
-    private final IngredientesService ingredientesService;
     private final MovimentosIngredientesService movimentosIngredientesService;
 
-    public MovimentosIngredientes(IngredientesService ingredientesService, FuncionarioService funcionarioService,
+    public MovimentosIngredientes(FuncionarioService funcionarioService,
             MovimentosIngredientesService movimentosIngredientesService) {
-        this.ingredientesService = ingredientesService;
         this.movimentosIngredientesService = movimentosIngredientesService;
     }
 

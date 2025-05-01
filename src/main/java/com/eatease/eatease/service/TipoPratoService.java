@@ -3,6 +3,7 @@ package com.eatease.eatease.service;
 import com.eatease.eatease.model.TipoPrato;
 import com.eatease.eatease.repository.TipoPratoRepository;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class TipoPratoService {
@@ -20,9 +21,13 @@ public class TipoPratoService {
             tipoPratoRepository.save(tipoPrato);
             System.err.println("Tipo de prato adicionado com sucesso.");
             return true;
-        }else{
+        } else {
             System.err.println("O tipo de prato já existe.");
             return false;
         }
+    }
+
+    public List<TipoPrato> getAllTipoPratos() {
+        return tipoPratoRepository.findAll();
     }
 }

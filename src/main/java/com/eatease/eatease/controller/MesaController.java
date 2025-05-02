@@ -212,6 +212,7 @@ public class MesaController {
     }
 
     /**
+     * update server
      * Define uma mesa como livre pelo número
      */
     @PostMapping("/liberar/numero")

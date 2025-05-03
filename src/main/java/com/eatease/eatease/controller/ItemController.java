@@ -38,7 +38,7 @@ public class ItemController {
                 requestDTO.getIngredientes(),
                 requestDTO.isComposto(),
                 requestDTO.getStockAtual());
-        if (res != null) {
+        if (res == null) {
             return ResponseEntity.ok("Item adicionado com sucesso.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -89,7 +89,7 @@ public class ItemController {
                 requestDTO.getIngredientes(),
                 requestDTO.isComposto(),
                 requestDTO.getStockAtual());
-        if (res != null) {
+        if (res == null) {
             return ResponseEntity.ok("Item editado com sucesso.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);

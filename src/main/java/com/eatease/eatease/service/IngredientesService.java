@@ -118,4 +118,14 @@ public class IngredientesService {
     public boolean doesIngredienteExist(long id) {
         return ingredientesRepository.existsById(id);
     }
+
+    public boolean temStockSuficiente(long id, int stock) {
+        Ingredientes ingredientes = ingredientesRepository.findById(id).orElse(null);
+        if (ingredientes != null) {
+            return ingredientes.getStock() >= stock;
+        } else {
+            System.err.println("O ingrediente não existe.");
+            return false;
+        }
+    }
 }

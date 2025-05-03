@@ -146,4 +146,8 @@ public class FuncionarioService {
             return false;
         }
     }
+
+    public Optional<Funcionario> getFuncionarioById(long id) {
+        return funcionarioRepository.findById(id);
+    }
 }

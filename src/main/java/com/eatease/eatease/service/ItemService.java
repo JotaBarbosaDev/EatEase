@@ -126,4 +126,24 @@ public class ItemService {
         System.err.println("Item eliminado com sucesso.");
         return true;
     }
+
+    public Optional<Item> getItemById(long id) {
+        return itemRepository.findById(id);
+    }
+
+    public List<IngredienteQuantDTO> getIngredientesByItemId(long id) {
+        Optional<Item> itemOpt = itemRepository.findById(id);
+        if (itemOpt.isPresent()) {
+            Item item = itemOpt.get();
+            String json = item.getIngredientesJson();
+            try {
+                return objectMapper.readValue(json,
+                        objectMapper.getTypeFactory().constructCollectionType(List.class, IngredienteQuantDTO.class));
+            } catch (JsonProcessingException e) {
+                System.err.println("Falha a deserializar ingredientes: " + e.getMessage());
+                return null;
+            }
+        }
+        return null;
+    }
 }

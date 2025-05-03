@@ -13,6 +13,8 @@ public class Menu {
     private String nome;
     private String descricao;
     private long items_id[];
+
+    @Column(name = "tipo_menu", columnDefinition = "bigint")
     private long tipoMenu;
 
     public long getId() {
@@ -42,6 +44,7 @@ public class Menu {
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -49,6 +52,7 @@ public class Menu {
     public String getDescricao() {
         return descricao;
     }
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }

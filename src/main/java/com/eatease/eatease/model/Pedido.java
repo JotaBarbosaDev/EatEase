@@ -14,6 +14,8 @@ public class Pedido {
     private long estadoPedido_id;
     private long mesa_id;
     private long funcionario_id;
+    private String dataHora;
+    private String observacao;
 
     public long getId() {
         return id;
@@ -53,6 +55,22 @@ public class Pedido {
 
     public void setFuncionario_id(long funcionario_id) {
         this.funcionario_id = funcionario_id;
-    }   
-    
+    }
+
+    public String getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(String dataHora) {
+        this.dataHora = dataHora;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
 }

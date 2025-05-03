@@ -14,7 +14,7 @@ public class IngredienteQuantDTO {
     @Schema(description = "Quantidade do ingrediente", example = "2.5")
     @NotNull(message = "A quantidade é obrigatória")
     @Min(value = 0, message = "A quantidade não pode ser negativa")
-    private Float quantidade;
+    private int quantidade;
 
     /* getters & setters */
     public Long getIngredienteId() {
@@ -25,11 +25,11 @@ public class IngredienteQuantDTO {
         this.ingredienteId = ingredienteId;
     }
 
-    public Float getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Float quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 }

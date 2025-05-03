@@ -32,4 +32,8 @@ public class EstadoPedidoService {
                 .map(EstadoPedido::getId)
                 .orElse(null);
     }
+
+    public boolean existsById(long id) {
+        return estadoPedidoRepository.existsById(id);
+    }
 }

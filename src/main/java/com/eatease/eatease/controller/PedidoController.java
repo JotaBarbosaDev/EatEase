@@ -102,32 +102,32 @@ public class PedidoController {
     /**
      * Atualiza um pedido existente
      */
-    @PostMapping("/edit")
-    public ResponseEntity<String> updatePedido(
-            @Valid @RequestBody PedidoUpdateDTO pedidoDTO,
-            @Parameter(hidden = true) HttpServletRequest request) {
+    // @PostMapping("/edit")
+    // public ResponseEntity<String> updatePedido(
+    //         @Valid @RequestBody PedidoUpdateDTO pedidoDTO,
+    //         @Parameter(hidden = true) HttpServletRequest request) {
 
-        // Verificação de autenticação - GERENTE, COZINHEIRO e FUNCIONARIO podem editar
-        // pedidos
-        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO", "FUNCIONARIO");
-        if (validUsername == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado ou sem permissões");
-        }
+    //     // Verificação de autenticação - GERENTE, COZINHEIRO e FUNCIONARIO podem editar
+    //     // pedidos
+    //     String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO", "FUNCIONARIO");
+    //     if (validUsername == null) {
+    //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado ou sem permissões");
+    //     }
 
-        String result = pedidoService.updatePedido(
-                pedidoDTO.getId(),
-                pedidoDTO.getPratoId(),
-                pedidoDTO.getEstadoPedidoId(),
-                pedidoDTO.getMesaId(),
-                pedidoDTO.getFuncionarioId(),
-                pedidoDTO.getObservacao());
+    //     String result = pedidoService.updatePedido(
+    //             pedidoDTO.getId(),
+    //             pedidoDTO.getPratoId(),
+    //             pedidoDTO.getEstadoPedidoId(),
+    //             pedidoDTO.getMesaId(),
+    //             pedidoDTO.getFuncionarioId(),
+    //             pedidoDTO.getObservacao());
 
-        if (result == null) {
-            return ResponseEntity.ok("Pedido atualizado com sucesso.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
-        }
-    }
+    //     if (result == null) {
+    //         return ResponseEntity.ok("Pedido atualizado com sucesso.");
+    //     } else {
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+    //     }
+    // }
 
     /**
      * Remove um pedido

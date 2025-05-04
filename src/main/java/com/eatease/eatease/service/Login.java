@@ -136,6 +136,10 @@ public class Login {
     }
 
     public static String checkLoginWithCargos(HttpServletRequest request, String... cargos) {
+        if (funcionarioService == null || cargoService == null) {
+            throw new IllegalStateException("Services not properly initialized");
+        }
+
         String username = checkLogin(request);
         if (username == null) {
             return null;

@@ -11,15 +11,15 @@ import org.springframework.stereotype.Service;
 public class MenuService {
 
     private final MenuRepository menuRepository;
-    private final IngredientesService ingredientesService;
-    private final TipoPratoService tipoPratoService;
+    private final ItemService itemService;
+    private final TipoMenuService tipoMenuService;
 
     public MenuService(MenuRepository menuRepository,
-            IngredientesService ingredientesService,
-            TipoPratoService tipoPratoService) {
+            ItemService itemService,
+            TipoMenuService tipoMenuService) {
         this.menuRepository = menuRepository;
-        this.ingredientesService = ingredientesService;
-        this.tipoPratoService = tipoPratoService;
+        this.itemService = itemService;
+        this.tipoMenuService = tipoMenuService;
     }
 
     public String createMenu(String nome, String descricao, long[] items_id, long tipoMenu) {
@@ -30,11 +30,11 @@ public class MenuService {
         menu.setTipoMenu(tipoMenu);
 
         for (long itemId : items_id) {
-            if (!ingredientesService.doesIngredienteExist(itemId)) {
+            if (!itemService.doesItemExist(itemId)) {
                 return "O item com ID " + itemId + " não existe.";
             }
         }
-        if (!tipoPratoService.checkTipoPratoExists(tipoMenu)) {
+        if (!tipoMenuService.checkTipoMenuExists(tipoMenu)) {
             return "O tipo de prato com ID " + tipoMenu + " não existe.";
         }
 
@@ -72,12 +72,12 @@ public class MenuService {
 
         }
         for (long itemId : items_id) {
-            if (!ingredientesService.doesIngredienteExist(itemId)) {
+            if (!itemService.doesItemExist(itemId)) {
                 return "O item com ID " + itemId + " não existe.";
             }
         }
-        if (!tipoPratoService.checkTipoPratoExists(tipoMenu)) {
-            return "O tipo de prato com ID " + tipoMenu + " não existe.";
+        if (!tipoMenuService.checkTipoMenuExists(tipoMenu)) {
+            return "O tipo de Menu com ID " + tipoMenu + " não existe.";
         }
 
         Menu menu = menuRepository.findById(id).orElse(null);

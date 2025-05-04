@@ -16,12 +16,14 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ObjectMapper objectMapper; // Jackson
     private final IngredientesService ingredientesService;
+    private final TipoPratoService tipoPratoService;
 
     public ItemService(ItemRepository itemRepository, ObjectMapper objectMapper,
-            IngredientesService ingredientesService) {
+            IngredientesService ingredientesService, TipoPratoService tipoPratoService) {
         this.itemRepository = itemRepository;
         this.objectMapper = objectMapper;
         this.ingredientesService = ingredientesService;
+        this.tipoPratoService = tipoPratoService;
     }
 
     /* ---------------------------- CREATE ------------------------------ */
@@ -42,6 +44,11 @@ public class ItemService {
                 System.err.println("O ingrediente com ID " + ingrediente.getIngredienteId() + " não existe.");
                 return "O ingrediente com ID " + ingrediente.getIngredienteId() + " não existe.";
             }
+        }
+
+        if (!tipoPratoService.checkTipoPratoExists(tipoPratoId)) {
+            System.err.println("O tipo de prato com ID " + tipoPratoId + " não existe.");
+            return "O tipo de prato com ID " + tipoPratoId + " não existe.";
         }
 
         Item item = new Item();
@@ -96,6 +103,11 @@ public class ItemService {
             }
         }
 
+        if (!tipoPratoService.checkTipoPratoExists(tipoPratoId)) {
+            System.err.println("O tipo de prato com ID " + tipoPratoId + " não existe.");
+            return "O tipo de prato com ID " + tipoPratoId + " não existe.";
+        }
+
         Item item = itemOpt.get();
         item.setNome(nome);
         item.setTipoPrato_id(tipoPratoId);
@@ -145,5 +157,9 @@ public class ItemService {
             }
         }
         return null;
+    }
+
+    public boolean doesItemExist(long id) {
+        return itemRepository.existsById(id);
     }
 }

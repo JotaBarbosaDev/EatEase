@@ -30,4 +30,8 @@ public class TipoMenuService {
     public List<TipoMenu> getAllTipoMenus() {
         return tipoMenuRepository.findAll();
     }
+
+    public boolean checkTipoMenuExists(Long id) {
+        return tipoMenuRepository.existsById(id);
+    }
 }

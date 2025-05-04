@@ -32,8 +32,8 @@ public class MenuController {
                 menuCreateDTO.getNome(),
                 menuCreateDTO.getDescricao(),
                 menuCreateDTO.getItemsIds(),
-                menuCreateDTO.getTipoMenuIds());
-        if (res != null) {
+                menuCreateDTO.getTipoMenuId());
+        if (res == null) {
             return ResponseEntity.ok("Item adicionado com sucesso.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -83,7 +83,7 @@ public class MenuController {
                 menuCreateDTO.getNome(),
                 menuCreateDTO.getDescricao(),
                 menuCreateDTO.getItemsIds(),
-                menuCreateDTO.getTipoMenuIds());
+                menuCreateDTO.getTipoMenuId());
         if (res != null) {
             return ResponseEntity.ok("Item editado com sucesso.");
         } else {

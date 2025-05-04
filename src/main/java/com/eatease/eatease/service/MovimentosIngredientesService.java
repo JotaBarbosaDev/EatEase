@@ -25,14 +25,15 @@ public class MovimentosIngredientesService {
         }
 
         if (quantidade < 0) {
-            ingredientesService.removeStock(id_ingrediente, quantidade);
+            ingredientesService.removeStock(id_ingrediente, -quantidade);
         } else {
             ingredientesService.addStock(id_ingrediente, quantidade);
         }
 
         MovimentosIngredientes movimentosIngredientes = new MovimentosIngredientes();
         movimentosIngredientes.setId_ingrediente(id_ingrediente);
-        movimentosIngredientes.setQuantidade_anterior(ingrediente.getStock() - quantidade); // Defina o valor anterior conforme
+        movimentosIngredientes.setQuantidade_anterior(ingrediente.getStock() - quantidade); // Defina o valor anterior
+                                                                                            // conforme
         movimentosIngredientes.setQuantidade_atualizada(quantidade); // Defina o valor atualizado conforme necessário
         movimentosIngredientes.setData(java.time.LocalDate.now().toString()); // Set current date to today
         movimentosIngredientesRepository.save(movimentosIngredientes);

@@ -26,6 +26,11 @@ public class FuncionarioService {
             return false;
         }
 
+        if (funcionarioRepository.findByUsername(username).isPresent()) {
+            System.err.println("O funcionário já existe.");
+            return false;
+        }
+
         if (funcionarioRepository.findByUsername(username).isEmpty()) {
             Funcionario funcionario = new Funcionario();
             funcionario.setNome(nome);
@@ -132,6 +137,22 @@ public class FuncionarioService {
     public boolean updateFuncionario(long funcionarioId, String nome, long cargoId, String username, String password,
             String email, String telefone) {
         Optional<Funcionario> funcionario = funcionarioRepository.findById(funcionarioId);
+
+        if (funcionario.isEmpty()) {
+            System.err.println("O funcionário não existe.");
+            return false;
+        }
+
+        if (funcionarioRepository.findByUsername(username).isPresent()) {
+            System.err.println("O username já existe.");
+            return false;
+        }
+
+        if (cargoService.checkCargoIdExists(cargoId) == false) {
+            System.err.println("O cargo não existe.");
+            return false;
+        }
+
         if (funcionario.isPresent()) {
             Funcionario f = funcionario.get();
             f.setNome(nome);

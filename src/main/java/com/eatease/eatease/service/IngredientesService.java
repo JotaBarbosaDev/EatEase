@@ -6,6 +6,7 @@ import com.eatease.eatease.repository.IngredientesRepository;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class IngredientesService {
@@ -98,6 +99,11 @@ public class IngredientesService {
         }
     }
 
+    /**
+     * Removes specified quantity from ingredient stock with transaction support
+     * to maintain data consistency and prevent race conditions
+     */
+    @Transactional
     public boolean removeStock(long id, int stock) {
         Ingredientes ingredientes = ingredientesRepository.findById(id).orElse(null);
         if (ingredientes != null) {
@@ -119,6 +125,11 @@ public class IngredientesService {
         return ingredientesRepository.existsById(id);
     }
 
+    /**
+     * Checks if an ingredient has enough stock for the required quantity
+     * Read-only to optimize database access
+     */
+    @Transactional(readOnly = true)
     public boolean temStockSuficiente(long id, int stock) {
         Ingredientes ingredientes = ingredientesRepository.findById(id).orElse(null);
         if (ingredientes != null) {

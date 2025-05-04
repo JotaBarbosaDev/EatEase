@@ -42,12 +42,12 @@ public class MenuCreateDTO {
         this.itemsIds = itemsIds;
     }
 
-    public long getTipoMenuIds() {
+    public long getTipoMenuId() {
         return tipoMenuId;
     }
 
-    public void setTipoMenuIds(long tipoMenuIds) {
-        this.tipoMenuId = tipoMenuIds;
+    public void setTipoMenuId(long tipoMenuId) {
+        this.tipoMenuId = tipoMenuId;
     }
 
     public String getNome() {

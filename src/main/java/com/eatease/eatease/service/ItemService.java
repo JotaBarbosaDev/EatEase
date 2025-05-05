@@ -162,4 +162,12 @@ public class ItemService {
     public boolean doesItemExist(long id) {
         return itemRepository.existsById(id);
     }
+
+
+    public Item getById(long id) {
+        if (itemRepository.existsById(id)) {
+            return itemRepository.findById(id).get();
+        }
+        return null;
+    }
 }

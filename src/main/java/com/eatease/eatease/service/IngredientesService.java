@@ -22,8 +22,8 @@ public class IngredientesService {
 
     public String createIngredientes(String nome, int stock, int stock_min, String unidade) {
         // Verifica se a unidade de medida existe
-        long unidade_id = unidadeMedidaService.getUnidadeMedidaId(unidade);
-        if (unidade_id == -1) {
+        Long unidade_id = unidadeMedidaService.getUnidadeMedidaId(unidade);
+        if (unidade_id == null || unidade_id == -1) {
             System.err.println("A unidade de medida não existe.");
             return "A unidade de medida não existe.";
         }
@@ -36,7 +36,7 @@ public class IngredientesService {
             ingredientes.setUnidade_id(unidade_id);
             ingredientesRepository.save(ingredientes);
             System.err.println("Ingrediente adicionado com sucesso.");
-            return "Ingrediente adicionado com sucesso.";
+            return null;
         } else {
             System.err.println("O ingredientes já existe.");
             return "O ingredientes já existe.";
@@ -70,7 +70,7 @@ public class IngredientesService {
             return "Ingrediente atualizado com sucesso.";
         } else {
             System.err.println("O ingrediente não existe.");
-            return "O ingrediente não existe.";
+            return null;
         }
     }
 

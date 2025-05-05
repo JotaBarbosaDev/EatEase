@@ -63,11 +63,7 @@ public class IngredientesController {
         }
 
         List<Ingredientes> ingredientes = ingredientesService.getAllIngredientes();
-        List<IngredientesResponseDTO> responseDTOs = ingredientes.stream()
-                .map(IngredientesResponseDTO::fromEntity)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(responseDTOs);
+        return ResponseEntity.ok(ingredientes);
     }
 
     @PostMapping("/edit")

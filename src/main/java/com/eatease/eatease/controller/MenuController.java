@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,12 +14,12 @@ import com.eatease.eatease.dto.MenuCreateDTO;
 import com.eatease.eatease.service.*;
 
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
-@RestController // Add this
+@RestController
 @RequestMapping("/menu")
-@Validated 
+@Validated
 public class MenuController {
 
     private final MenuService menuService;
@@ -28,7 +29,7 @@ public class MenuController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createMenu(@RequestBody MenuCreateDTO menuCreateDTO,
+    public ResponseEntity<?> createMenu(@Valid @RequestBody MenuCreateDTO menuCreateDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
         // Verifica se o utilizador está autenticado
         String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
@@ -42,7 +43,7 @@ public class MenuController {
                 menuCreateDTO.getItemsIds(),
                 menuCreateDTO.getTipoMenuId());
         if (res == null) {
-            return ResponseEntity.ok("Item adicionado com sucesso.");
+            return ResponseEntity.ok("Menu adicionado com sucesso.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(res);
@@ -78,8 +79,8 @@ public class MenuController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateMenu(@RequestParam Long id, // Add @RequestParam
-            @RequestBody MenuCreateDTO menuCreateDTO, // Add @RequestBody
+    public ResponseEntity<?> updateMenu(@RequestParam Long id,
+            @Valid @RequestBody MenuCreateDTO menuCreateDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
         // Verifica se o utilizador está autenticado
         String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
@@ -94,11 +95,10 @@ public class MenuController {
                 menuCreateDTO.getItemsIds(),
                 menuCreateDTO.getTipoMenuId());
         if (res == null) {
-            return ResponseEntity.ok("Item editado com sucesso.");
+            return ResponseEntity.ok("Menu editado com sucesso.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(res);
         }
     }
-
 }

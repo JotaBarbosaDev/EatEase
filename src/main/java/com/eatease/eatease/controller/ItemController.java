@@ -1,9 +1,11 @@
 package com.eatease.eatease.controller;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.eatease.eatease.dto.ItemRequestDTO;
+import com.eatease.eatease.model.Item;
 import com.eatease.eatease.service.ItemService;
 import com.eatease.eatease.service.Login;
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,8 +67,11 @@ public class ItemController {
         if (validUsername == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
-
-        return ResponseEntity.ok(itemService.getByPratoId(pratoId));
+        Item item = itemService.getById(pratoId);
+        if (item == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item não encontrado.");
+        }
+        return ResponseEntity.ok(item);
     }
 
     @PostMapping("/edit")
@@ -96,7 +101,7 @@ public class ItemController {
         }
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteItem(
             @RequestParam long id,
             @Parameter(hidden = true) HttpServletRequest request) {

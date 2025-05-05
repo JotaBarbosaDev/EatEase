@@ -46,7 +46,7 @@ public class IngredientesController {
                 requestDTO.getStock_min(),
                 requestDTO.getUnidadeMedida());
 
-        if (res != null) {
+        if (res == null) {
             return ResponseEntity.ok("Ingrediente adicionado com sucesso.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -89,7 +89,7 @@ public class IngredientesController {
                 requestDTO.getStock_min(),
                 requestDTO.getUnidadeMedida());
 
-        if (res != null) {
+        if (res == null) {
             return ResponseEntity.ok("Ingrediente editado com sucesso.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

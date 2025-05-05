@@ -143,13 +143,13 @@ public class FuncionarioService {
             return false;
         }
 
-        if (funcionarioRepository.findByUsername(username).isPresent()) {
-            System.err.println("O username já existe.");
+        if (cargoService.checkCargoIdExists(cargoId) == false) {
+            System.err.println("O cargo não existe.");
             return false;
         }
 
-        if (cargoService.checkCargoIdExists(cargoId) == false) {
-            System.err.println("O cargo não existe.");
+        if (!funcionario.get().getUsername().equals(username)) {
+            System.out.println("O username deve ser sempre o mesmo.");
             return false;
         }
 

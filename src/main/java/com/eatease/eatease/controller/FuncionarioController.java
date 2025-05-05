@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter; // springdoc-openapi
 
 import com.eatease.eatease.dto.FuncionarioDTO;
 import com.eatease.eatease.dto.LoginRequestDTO;
+import com.eatease.eatease.model.Funcionario;
 import com.eatease.eatease.service.CargoService;
 import com.eatease.eatease.service.FuncionarioService;
 import com.eatease.eatease.service.Login;
@@ -30,7 +31,7 @@ public class FuncionarioController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody FuncionarioDTO dto,
+    public ResponseEntity<?> register(@RequestBody FuncionarioDTO dto,
             @Parameter(hidden = true) HttpServletRequest request) {
 
         String validUsername = Login.checkLoginWithCargos(request, "GERENTE");
@@ -38,13 +39,14 @@ public class FuncionarioController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado ou sem permissões");
         }
 
-        boolean res = funcionarioService.createFuncionario(dto.getNome(), dto.getCargoId(), dto.getUsername(),
-                dto.getPassword(), dto.getEmail(), dto.getTelefone());
-        if (res) {
-            return ResponseEntity.ok("Funcionário adicionado com sucesso.");
-        } else {
+        try {
+            Funcionario res = funcionarioService.createFuncionario(dto.getNome(), dto.getCargoId(), dto.getUsername(),
+                    dto.getPassword(), dto.getEmail(), dto.getTelefone());
+            res.setPassword(null);
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível adicionar o funcionário username repetido ou cargo nao existente.");
+                    .body("Erro ao cadastrar funcionário: " + e.getMessage());
         }
     }
 
@@ -103,7 +105,7 @@ public class FuncionarioController {
     }
 
     @PostMapping("/updateFuncionario")
-    public ResponseEntity<String> updateFuncionario(@RequestParam long funcionarioId,
+    public ResponseEntity<?> updateFuncionario(@RequestParam long funcionarioId,
             @RequestBody FuncionarioDTO dto,
             @Parameter(hidden = true) HttpServletRequest request) {
 
@@ -112,13 +114,14 @@ public class FuncionarioController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado ou sem permissões");
         }
 
-        boolean res = funcionarioService.updateFuncionario(funcionarioId, dto.getNome(), dto.getCargoId(),
-                dto.getUsername(), dto.getPassword(), dto.getEmail(), dto.getTelefone());
-        if (res) {
-            return ResponseEntity.ok("Funcionário atualizado com sucesso.");
-        } else {
+        try {
+            Funcionario res = funcionarioService.updateFuncionario(funcionarioId, dto.getNome(), dto.getCargoId(),
+                    dto.getUsername(), dto.getPassword(), dto.getEmail(), dto.getTelefone());
+            res.setPassword(null);
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível atualizar o funcionário username repetido ou cargo nao existente.");
+                    .body("Erro ao atualizar funcionário: " + e.getMessage());
         }
     }
 }

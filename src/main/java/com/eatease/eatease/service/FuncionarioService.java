@@ -19,16 +19,16 @@ public class FuncionarioService {
         this.cargoService = cargoService;
     }
 
-    public boolean createFuncionario(String nome, long cargoId, String username, String password, String email,
-            String telefone) {
+    public Funcionario createFuncionario(String nome, long cargoId, String username, String password, String email,
+            String telefone) throws Exception {
         if (cargoService.checkCargoIdExists(cargoId) == false) {
             System.err.println("O cargo não existe.");
-            return false;
+            throw new IllegalArgumentException("O cargo não existe.");
         }
 
         if (funcionarioRepository.findByUsername(username).isPresent()) {
             System.err.println("O funcionário já existe.");
-            return false;
+            throw new IllegalArgumentException("O funcionário já existe.");
         }
 
         if (funcionarioRepository.findByUsername(username).isEmpty()) {
@@ -41,10 +41,10 @@ public class FuncionarioService {
             funcionario.setTelefone(telefone);
             funcionarioRepository.save(funcionario);
             System.err.println("Funcionário adicionado com sucesso.");
-            return true;
+            return funcionario;
         } else {
             System.err.println("O funcionário " + username + " já existe.");
-            return false;
+            return null;
         }
     }
 
@@ -134,23 +134,24 @@ public class FuncionarioService {
         return funcionarioRepository.findAll();
     }
 
-    public boolean updateFuncionario(long funcionarioId, String nome, long cargoId, String username, String password,
-            String email, String telefone) {
+    public Funcionario updateFuncionario(long funcionarioId, String nome, long cargoId, String username,
+            String password,
+            String email, String telefone) throws Exception {
         Optional<Funcionario> funcionario = funcionarioRepository.findById(funcionarioId);
 
         if (funcionario.isEmpty()) {
             System.err.println("O funcionário não existe.");
-            return false;
+            throw new IllegalArgumentException("O funcionário não existe.");
         }
 
         if (cargoService.checkCargoIdExists(cargoId) == false) {
             System.err.println("O cargo não existe.");
-            return false;
+            throw new IllegalArgumentException("O cargo não existe.");
         }
 
         if (!funcionario.get().getUsername().equals(username)) {
             System.out.println("O username deve ser sempre o mesmo.");
-            return false;
+            throw new IllegalArgumentException("O username deve ser sempre o mesmo.");
         }
 
         if (funcionario.isPresent()) {
@@ -162,9 +163,9 @@ public class FuncionarioService {
             f.setEmail(email);
             f.setTelefone(telefone);
             funcionarioRepository.save(f);
-            return true;
+            return f;
         } else {
-            return false;
+            throw new IllegalArgumentException("O funcionário não existe.");
         }
     }
 

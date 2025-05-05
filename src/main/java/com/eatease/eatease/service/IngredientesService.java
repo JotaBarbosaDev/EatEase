@@ -20,12 +20,12 @@ public class IngredientesService {
         this.unidadeMedidaService = unidadeMedidaService;
     }
 
-    public String createIngredientes(String nome, int stock, int stock_min, String unidade) {
+    public Ingredientes createIngredientes(String nome, int stock, int stock_min, String unidade) throws Exception {
         // Verifica se a unidade de medida existe
         Long unidade_id = unidadeMedidaService.getUnidadeMedidaId(unidade);
         if (unidade_id == null || unidade_id == -1) {
             System.err.println("A unidade de medida não existe.");
-            return "A unidade de medida não existe.";
+            throw new IllegalArgumentException("A unidade de medida não existe.");
         }
 
         if (ingredientesRepository.findByNome(nome).isEmpty()) {
@@ -36,10 +36,10 @@ public class IngredientesService {
             ingredientes.setUnidade_id(unidade_id);
             ingredientesRepository.save(ingredientes);
             System.err.println("Ingrediente adicionado com sucesso.");
-            return null;
+            return ingredientes;
         } else {
             System.err.println("O ingredientes já existe.");
-            return "O ingredientes já existe.";
+            throw new IllegalArgumentException("O ingredientes já existe.");
         }
     }
 
@@ -51,12 +51,13 @@ public class IngredientesService {
         return ingredientesRepository.findById(id).orElse(null);
     }
 
-    public String updateIngredientes(long id, String nome, int stock, int stock_min, String unidade) {
+    public Ingredientes updateIngredientes(long id, String nome, int stock, int stock_min, String unidade)
+            throws Exception {
         // Verifica se a unidade de medida existe
         long unidade_id = unidadeMedidaService.getUnidadeMedidaId(unidade);
         if (unidade_id == -1) {
             System.err.println("A unidade de medida não existe.");
-            return "A unidade de medida não existe.";
+            throw new IllegalArgumentException("A unidade de medida não existe.");
         }
 
         Ingredientes ingredientes = ingredientesRepository.findById(id).orElse(null);
@@ -67,10 +68,10 @@ public class IngredientesService {
             ingredientes.setUnidade_id(unidade_id);
             ingredientesRepository.save(ingredientes);
             System.err.println("Ingrediente atualizado com sucesso.");
-            return "Ingrediente atualizado com sucesso.";
+            return ingredientes;
         } else {
             System.err.println("O ingrediente não existe.");
-            return null;
+            throw new IllegalArgumentException("O ingrediente não existe.");
         }
     }
 

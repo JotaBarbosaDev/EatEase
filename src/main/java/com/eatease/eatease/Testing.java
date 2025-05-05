@@ -55,17 +55,25 @@ public class Testing {
                 unidadeMedidaService.createUnidadeMedida("doses");
                 unidadeMedidaService.createUnidadeMedida("caixas");
 
-                funcionarioService.createFuncionario("Administrador", Long.parseLong("2"), "admin",
-                                "admin", "admin@email.com", "213123123");
-                funcionarioService.createFuncionario("Jota", Long.parseLong("1"), "jota", "jota",
-                                "jota@email.pt", "213123123");
-                funcionarioService.createFuncionario("Rafa", Long.parseLong("1"), "rafa", "rafa",
-                                "rafa@email.fr", "213123123");
-                funcionarioService.createFuncionario("Cozinheiro", Long.parseLong("3"), "coz", "coz",
-                                "coz", "213123123");
-                ingredientesService.createIngredientes("Arroz", 10000, 1000, "gramas");
-                ingredientesService.createIngredientes("Massa", 20000, 1000, "quilos");
-                ingredientesService.createIngredientes("Batata", 35000, 5000, "unidades");
+                try {
+                        funcionarioService.createFuncionario("Administrador", Long.parseLong("2"), "admin",
+                                        "admin", "admin@email.com", "213123123");
+                        funcionarioService.createFuncionario("Jota", Long.parseLong("1"), "jota", "jota",
+                                        "jota@email.pt", "213123123");
+                        funcionarioService.createFuncionario("Rafa", Long.parseLong("1"), "rafa", "rafa",
+                                        "rafa@email.fr", "213123123");
+                        funcionarioService.createFuncionario("Cozinheiro", Long.parseLong("3"), "coz", "coz",
+                                        "coz", "213123123");
+                } catch (Exception e) {
+                        System.out.println("Erro ao criar funcionario: " + e.getMessage());
+                }
+                try {
+                        ingredientesService.createIngredientes("Arroz", 10000, 1000, "gramas");
+                        ingredientesService.createIngredientes("Massa", 20000, 1000, "quilos");
+                        ingredientesService.createIngredientes("Batata", 35000, 5000, "unidades");
+                } catch (Exception e) {
+                        System.out.println("Erro ao criar ingredientes: " + e.getMessage());
+                }
 
                 tipoPratoService.createTipoPrato("Prato Principal");
                 tipoPratoService.createTipoPrato("Entradas");

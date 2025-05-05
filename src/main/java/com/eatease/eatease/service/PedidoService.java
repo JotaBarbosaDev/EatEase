@@ -110,16 +110,16 @@ public class PedidoService {
         }
     }
 
-    public String createPedido(long prato_id, long estadoPedido_id, long mesa_id, long funcionario_id,
-            String observacao) {
+    public Pedido createPedido(long prato_id, long estadoPedido_id, long mesa_id, long funcionario_id,
+            String observacao) throws Exception {
 
         String error = checkAllInfo(prato_id, estadoPedido_id, mesa_id, funcionario_id);
         if (error != null) {
-            return error;
+            throw new Exception(error);
         }
 
         if (alterarStockItem(prato_id) == false) {
-            return "Não há stock suficiente para o prato " + prato_id;
+            throw new Exception("Não há stock suficiente para o prato " + prato_id);
         }
 
         Pedido Pedido = new Pedido();
@@ -131,36 +131,38 @@ public class PedidoService {
         Pedido.setObservacao(observacao);
         pedidoRepository.save(Pedido);
         System.err.println("Pedido adicionado com sucesso.");
-        return null; // sucesso
+        return Pedido; // sucesso
     }
 
-    // public String updatePedido(long id, long prato_id, long estadoPedido_id, long mesa_id, long funcionario_id,
-    //         String observacao) {
+    // public String updatePedido(long id, long prato_id, long estadoPedido_id, long
+    // mesa_id, long funcionario_id,
+    // String observacao) {
 
-    //     String error = checkAllInfo(prato_id, estadoPedido_id, mesa_id, funcionario_id);
-    //     if (error != null) {
-    //         return error;
-    //     }
+    // String error = checkAllInfo(prato_id, estadoPedido_id, mesa_id,
+    // funcionario_id);
+    // if (error != null) {
+    // return error;
+    // }
 
-    //     if (alterarStockItem(prato_id) == false) {
-    //         return "Não há stock suficiente para o prato " + prato_id;
-    //     }
-    //     Optional<Pedido> pedidoOpt = pedidoRepository.findById(id);
-    //     if (pedidoOpt.isPresent()) {
-    //         Pedido pedido = pedidoOpt.get();
-    //         pedido.setPrato_id(prato_id);
-    //         pedido.setEstadoPedido_id(estadoPedido_id);
-    //         pedido.setMesa_id(mesa_id);
-    //         pedido.setFuncionario_id(funcionario_id);
-    //         pedido.setDataHora(java.time.LocalDateTime.now().toString());
-    //         pedido.setObservacao(observacao);
-    //         pedidoRepository.save(pedido);
-    //         System.err.println("Pedido atualizado com sucesso.");
-    //         return null; // sucesso
-    //     } else {
-    //         System.err.println("O pedido não existe.");
-    //         return "O pedido não existe.";
-    //     }
+    // if (alterarStockItem(prato_id) == false) {
+    // return "Não há stock suficiente para o prato " + prato_id;
+    // }
+    // Optional<Pedido> pedidoOpt = pedidoRepository.findById(id);
+    // if (pedidoOpt.isPresent()) {
+    // Pedido pedido = pedidoOpt.get();
+    // pedido.setPrato_id(prato_id);
+    // pedido.setEstadoPedido_id(estadoPedido_id);
+    // pedido.setMesa_id(mesa_id);
+    // pedido.setFuncionario_id(funcionario_id);
+    // pedido.setDataHora(java.time.LocalDateTime.now().toString());
+    // pedido.setObservacao(observacao);
+    // pedidoRepository.save(pedido);
+    // System.err.println("Pedido atualizado com sucesso.");
+    // return null; // sucesso
+    // } else {
+    // System.err.println("O pedido não existe.");
+    // return "O pedido não existe.";
+    // }
     // }
 
     public boolean deletePedido(long id) {

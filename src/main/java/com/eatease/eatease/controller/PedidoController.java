@@ -36,7 +36,7 @@ public class PedidoController {
      * Cria um novo pedido
      */
     @PostMapping("/create")
-    public ResponseEntity<String> createPedido(
+    public ResponseEntity<?> createPedido(
             @Valid @RequestBody PedidoRequestDTO pedidoDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
 
@@ -47,18 +47,17 @@ public class PedidoController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado ou sem permissões");
         }
 
-        String result = pedidoService.createPedido(
-                pedidoDTO.getPratoId(),
-                pedidoDTO.getEstadoPedidoId(),
-                pedidoDTO.getMesaId(),
-                pedidoDTO.getFuncionarioId(),
-                pedidoDTO.getObservacao());
-
-        if (result == null) {
-            return ResponseEntity.ok("Pedido criado com sucesso.");
-        } else {
+        try {
+            Pedido result = pedidoService.createPedido(
+                    pedidoDTO.getPratoId(),
+                    pedidoDTO.getEstadoPedidoId(),
+                    pedidoDTO.getMesaId(),
+                    pedidoDTO.getFuncionarioId(),
+                    pedidoDTO.getObservacao());
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(result);
+                    .body("Erro ao cadastrar pedido: " + e.getMessage());
         }
     }
 
@@ -104,29 +103,32 @@ public class PedidoController {
      */
     // @PostMapping("/edit")
     // public ResponseEntity<String> updatePedido(
-    //         @Valid @RequestBody PedidoUpdateDTO pedidoDTO,
-    //         @Parameter(hidden = true) HttpServletRequest request) {
+    // @Valid @RequestBody PedidoUpdateDTO pedidoDTO,
+    // @Parameter(hidden = true) HttpServletRequest request) {
 
-    //     // Verificação de autenticação - GERENTE, COZINHEIRO e FUNCIONARIO podem editar
-    //     // pedidos
-    //     String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO", "FUNCIONARIO");
-    //     if (validUsername == null) {
-    //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado ou sem permissões");
-    //     }
+    // // Verificação de autenticação - GERENTE, COZINHEIRO e FUNCIONARIO podem
+    // editar
+    // // pedidos
+    // String validUsername = Login.checkLoginWithCargos(request, "GERENTE",
+    // "COZINHEIRO", "FUNCIONARIO");
+    // if (validUsername == null) {
+    // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado
+    // ou sem permissões");
+    // }
 
-    //     String result = pedidoService.updatePedido(
-    //             pedidoDTO.getId(),
-    //             pedidoDTO.getPratoId(),
-    //             pedidoDTO.getEstadoPedidoId(),
-    //             pedidoDTO.getMesaId(),
-    //             pedidoDTO.getFuncionarioId(),
-    //             pedidoDTO.getObservacao());
+    // String result = pedidoService.updatePedido(
+    // pedidoDTO.getId(),
+    // pedidoDTO.getPratoId(),
+    // pedidoDTO.getEstadoPedidoId(),
+    // pedidoDTO.getMesaId(),
+    // pedidoDTO.getFuncionarioId(),
+    // pedidoDTO.getObservacao());
 
-    //     if (result == null) {
-    //         return ResponseEntity.ok("Pedido atualizado com sucesso.");
-    //     } else {
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
-    //     }
+    // if (result == null) {
+    // return ResponseEntity.ok("Pedido atualizado com sucesso.");
+    // } else {
+    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+    // }
     // }
 
     /**

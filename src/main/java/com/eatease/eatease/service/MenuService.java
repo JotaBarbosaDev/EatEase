@@ -35,42 +35,42 @@ public class MenuService {
      * @return null se bem-sucedido, mensagem de erro caso contrário
      */
     @Transactional
-    public String createMenu(String nome, String descricao, List<Long> itemsIds, Long tipoMenuId) {
+    public Menu createMenu(String nome, String descricao, List<Long> itemsIds, Long tipoMenuId) throws Exception {
         // Validate input parameters
         if (!StringUtils.hasText(nome)) {
-            return "O nome do menu não pode estar vazio.";
+            throw new IllegalArgumentException("O nome do menu não pode estar vazio.");
         }
 
         if (itemsIds == null) {
-            return "A lista de itens não pode ser nula.";
+            throw new IllegalArgumentException("A lista de itens não pode ser nula.");
         }
 
         if (itemsIds.isEmpty()) {
-            return "O menu deve conter pelo menos um item.";
+            throw new IllegalArgumentException("O menu deve conter pelo menos um item.");
         }
 
         if (menuRepository.existsByNome(nome)) {
-            return "O menu com o nome '" + nome + "' já existe.";
+            throw new IllegalArgumentException("O menu com o nome '" + nome + "' já existe.");
         }
 
         // Validate item IDs existence
         for (Long itemId : itemsIds) {
             if (itemId == null) {
-                return "ID de item nulo encontrado na lista.";
+                throw new IllegalArgumentException("ID de item nulo encontrado na lista.");
             }
 
             if (!itemService.doesItemExist(itemId)) {
-                return "O item com ID " + itemId + " não existe.";
+                throw new IllegalArgumentException("O item com ID " + itemId + " não existe.");
             }
         }
 
         // Validate tipo menu ID
         if (tipoMenuId == null) {
-            return "O ID do tipo de menu não pode ser nulo.";
+            throw new IllegalArgumentException("O ID do tipo de menu não pode ser nulo.");
         }
 
         if (!tipoMenuService.checkTipoMenuExists(tipoMenuId)) {
-            return "O tipo de menu com ID " + tipoMenuId + " não existe.";
+            throw new IllegalArgumentException("O tipo de menu com ID " + tipoMenuId + " não existe.");
         }
 
         Menu menu = new Menu();
@@ -81,8 +81,8 @@ public class MenuService {
         long[] itemsArray = itemsIds.stream().mapToLong(Long::longValue).toArray();
         menu.setItems_id(itemsArray);
         menu.setTipoMenu(tipoMenuId);
-        menuRepository.save(menu);
-        return null;
+        Menu savedMenu = menuRepository.save(menu);
+        return savedMenu;
     }
 
     /**
@@ -151,55 +151,54 @@ public class MenuService {
      * @return null se bem-sucedido, mensagem de erro caso contrário
      */
     @Transactional
-    public String updateMenu(Long id, String nome, String descricao, List<Long> itemsIds, Long tipoMenuId) {
+    public Menu updateMenu(Long id, String nome, String descricao, List<Long> itemsIds, Long tipoMenuId) throws Exception {
         // Validate input parameters
         if (id == null) {
-            return "O ID do menu não pode ser nulo.";
+            throw new IllegalArgumentException("O ID do menu não pode ser nulo.");
         }
 
         if (!StringUtils.hasText(nome)) {
-            return "O nome do menu não pode estar vazio.";
+            throw new IllegalArgumentException("O nome do menu não pode estar vazio.");
         }
 
         Optional<Menu> menuOptional = menuRepository.findById(id);
         if (menuOptional.isEmpty()) {
-            return "Menu com ID " + id + " não encontrado.";
+            throw new IllegalArgumentException("Menu com ID " + id + " não encontrado.");
         }
 
         Menu menu = menuOptional.get();
 
-        // Check if the new name conflicts with existing menus (excluding the current
-        // menu)
+        // Check if the new name conflicts with existing menus (excluding the current menu)
         if (!nome.equals(menu.getNome()) && menuRepository.existsByNome(nome)) {
-            return "Já existe outro menu com o nome '" + nome + "'.";
+            throw new IllegalArgumentException("Já existe outro menu com o nome '" + nome + "'.");
         }
 
         if (itemsIds == null) {
-            return "A lista de itens não pode ser nula.";
+            throw new IllegalArgumentException("A lista de itens não pode ser nula.");
         }
 
         if (itemsIds.isEmpty()) {
-            return "O menu deve conter pelo menos um item.";
+            throw new IllegalArgumentException("O menu deve conter pelo menos um item.");
         }
 
         // Validate item IDs existence
         for (Long itemId : itemsIds) {
             if (itemId == null) {
-                return "ID de item nulo encontrado na lista.";
+                throw new IllegalArgumentException("ID de item nulo encontrado na lista.");
             }
 
             if (!itemService.doesItemExist(itemId)) {
-                return "O item com ID " + itemId + " não existe.";
+                throw new IllegalArgumentException("O item com ID " + itemId + " não existe.");
             }
         }
 
         // Validate tipo menu ID
         if (tipoMenuId == null) {
-            return "O ID do tipo de menu não pode ser nulo.";
+            throw new IllegalArgumentException("O ID do tipo de menu não pode ser nulo.");
         }
 
         if (!tipoMenuService.checkTipoMenuExists(tipoMenuId)) {
-            return "O tipo de menu com ID " + tipoMenuId + " não existe.";
+            throw new IllegalArgumentException("O tipo de menu com ID " + tipoMenuId + " não existe.");
         }
 
         menu.setNome(nome);
@@ -210,7 +209,7 @@ public class MenuService {
         menu.setItems_id(itemsArray);
         menu.setTipoMenu(tipoMenuId);
 
-        menuRepository.save(menu);
-        return null;
+        Menu savedMenu = menuRepository.save(menu);
+        return savedMenu;
     }
 }

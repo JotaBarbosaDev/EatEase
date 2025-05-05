@@ -40,17 +40,17 @@ public class IngredientesController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        String res = ingredientesService.createIngredientes(
-                requestDTO.getNome(),
-                requestDTO.getStock(),
-                requestDTO.getStock_min(),
-                requestDTO.getUnidadeMedida());
+        try {
+            Ingredientes res = ingredientesService.createIngredientes(
+                    requestDTO.getNome(),
+                    requestDTO.getStock(),
+                    requestDTO.getStock_min(),
+                    requestDTO.getUnidadeMedida());
+            return ResponseEntity.ok(res);
 
-        if (res == null) {
-            return ResponseEntity.ok("Ingrediente adicionado com sucesso.");
-        } else {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(res);
+                    .body("Erro ao cadastrar ingrediente: " + e.getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ public class IngredientesController {
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<String> editIngrediente(
+    public ResponseEntity<?> editIngrediente(
             @RequestParam long id,
             @Valid @RequestBody IngredientesRequestDTO requestDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
@@ -72,18 +72,17 @@ public class IngredientesController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        String res = ingredientesService.updateIngredientes(
-                id,
-                requestDTO.getNome(),
-                requestDTO.getStock(),
-                requestDTO.getStock_min(),
-                requestDTO.getUnidadeMedida());
-
-        if (res == null) {
-            return ResponseEntity.ok("Ingrediente editado com sucesso.");
-        } else {
+        try {
+            Ingredientes res = ingredientesService.updateIngredientes(
+                    id,
+                    requestDTO.getNome(),
+                    requestDTO.getStock(),
+                    requestDTO.getStock_min(),
+                    requestDTO.getUnidadeMedida());
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(res);
+                    .body("Erro ao editar ingrediente: " + e.getMessage());
         }
     }
 

@@ -33,18 +33,18 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        String res = itemService.createItem(
-                requestDTO.getNome(),
-                requestDTO.getTipoPratoId(),
-                requestDTO.getPreco(),
-                requestDTO.getIngredientes(),
-                requestDTO.isComposto(),
-                requestDTO.getStockAtual());
-        if (res == null) {
-            return ResponseEntity.ok("Item adicionado com sucesso.");
-        } else {
+        try {
+            Item res = itemService.createItem(
+                    requestDTO.getNome(),
+                    requestDTO.getTipoPratoId(),
+                    requestDTO.getPreco(),
+                    requestDTO.getIngredientes(),
+                    requestDTO.isComposto(),
+                    requestDTO.getStockAtual());
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(res);
+                    .body("Erro ao cadastrar item: " + e.getMessage());
         }
     }
 
@@ -76,18 +76,19 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        String res = itemService.editItem(
-                id,
-                requestDTO.getNome(),
-                requestDTO.getTipoPratoId(),
-                requestDTO.getPreco(),
-                requestDTO.getIngredientes(),
-                requestDTO.isComposto(),
-                requestDTO.getStockAtual());
-        if (res == null) {
-            return ResponseEntity.ok("Item editado com sucesso.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+        try {
+            Item res = itemService.editItem(
+                    id,
+                    requestDTO.getNome(),
+                    requestDTO.getTipoPratoId(),
+                    requestDTO.getPreco(),
+                    requestDTO.getIngredientes(),
+                    requestDTO.isComposto(),
+                    requestDTO.getStockAtual());
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Erro ao editar item: " + e.getMessage());
         }
     }
 

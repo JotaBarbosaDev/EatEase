@@ -48,16 +48,12 @@ public class MesaController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado ou sem permissões");
         }
 
-        boolean result = mesaService.createMesa(numero, estadoLivre);
-        if (result) {
-            Optional<Mesa> createdMesa = mesaService.getMesaByNumero(numero);
-            if (createdMesa.isPresent()) {
-                return ResponseEntity.ok(createdMesa.get());
-            }
-            return ResponseEntity.ok("Mesa adicionada com sucesso.");
-        } else {
+        try {
+            Mesa result = mesaService.createMesa(numero, estadoLivre);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível criar a mesa. Mesa com número " + numero + " já existe.");
+                    .body("Erro ao cadastrar mesa: " + e.getMessage());
         }
     }
 

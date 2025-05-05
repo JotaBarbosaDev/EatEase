@@ -27,28 +27,29 @@ public class ItemService {
     }
 
     /* ---------------------------- CREATE ------------------------------ */
-    public String createItem(String nome,
+    public Item createItem(String nome,
             long tipoPratoId,
             float preco,
             List<IngredienteQuantDTO> ingredientes, // <-- alterado
             boolean eComposto,
-            int stockAtual) {
+            int stockAtual) throws Exception {
 
         if (itemRepository.findByNome(nome).isPresent()) {
             System.err.println("O item já existe.");
-            return "O item já existe.";
+            throw new IllegalArgumentException("O item já existe.");
         }
 
         for (IngredienteQuantDTO ingrediente : ingredientes) {
             if (!ingredientesService.doesIngredienteExist(ingrediente.getIngredienteId())) {
                 System.err.println("O ingrediente com ID " + ingrediente.getIngredienteId() + " não existe.");
-                return "O ingrediente com ID " + ingrediente.getIngredienteId() + " não existe.";
+                throw new IllegalArgumentException(
+                        "O ingrediente com ID " + ingrediente.getIngredienteId() + " não existe.");
             }
         }
 
         if (!tipoPratoService.checkTipoPratoExists(tipoPratoId)) {
             System.err.println("O tipo de prato com ID " + tipoPratoId + " não existe.");
-            return "O tipo de prato com ID " + tipoPratoId + " não existe.";
+            throw new IllegalArgumentException("O tipo de prato com ID " + tipoPratoId + " não existe.");
         }
 
         Item item = new Item();
@@ -64,12 +65,12 @@ public class ItemService {
         } catch (JsonProcessingException e) {
             // erro de serialização — não grava
             System.err.println("Falha a serializar ingredientes: " + e.getMessage());
-            return "Falha a serializar ingredientes: " + e.getMessage();
+            throw new Exception("Falha a serializar ingredientes: " + e.getMessage());
         }
 
         itemRepository.save(item);
         System.err.println("Item adicionado com sucesso.");
-        return null; // sucesso
+        return item; // sucesso
     }
 
     /* ---------------------------- READ ------------------------------- */
@@ -82,30 +83,31 @@ public class ItemService {
     }
 
     /* ---------------------------- UPDATE ----------------------------- */
-    public String editItem(long id,
+    public Item editItem(long id,
             String nome,
             long tipoPratoId,
             float preco,
             List<IngredienteQuantDTO> ingredientes, // <-- alterado
             boolean eComposto,
-            int stockAtual) {
+            int stockAtual) throws Exception {
 
         Optional<Item> itemOpt = itemRepository.findById(id);
         if (itemOpt.isEmpty()) {
             System.err.println("O item não existe.");
-            return "O item não existe.";
+            throw new IllegalArgumentException("O item não existe.");
         }
 
         for (IngredienteQuantDTO ingrediente : ingredientes) {
             if (!ingredientesService.doesIngredienteExist(ingrediente.getIngredienteId())) {
                 System.err.println("O ingrediente com ID " + ingrediente.getIngredienteId() + " não existe.");
-                return "O ingrediente com ID " + ingrediente.getIngredienteId() + " não existe.";
+                throw new IllegalArgumentException(
+                        "O ingrediente com ID " + ingrediente.getIngredienteId() + " não existe.");
             }
         }
 
         if (!tipoPratoService.checkTipoPratoExists(tipoPratoId)) {
             System.err.println("O tipo de prato com ID " + tipoPratoId + " não existe.");
-            return "O tipo de prato com ID " + tipoPratoId + " não existe.";
+            throw new IllegalArgumentException("O tipo de prato com ID " + tipoPratoId + " não existe.");
         }
 
         Item item = itemOpt.get();
@@ -120,12 +122,12 @@ public class ItemService {
             item.setIngredientesJson(json);
         } catch (JsonProcessingException e) {
             System.err.println("Falha a serializar ingredientes: " + e.getMessage());
-            return "Falha a serializar ingredientes: " + e.getMessage();
+            throw new Exception("Falha a serializar ingredientes: " + e.getMessage());
         }
 
         itemRepository.save(item);
         System.err.println("Item editado com sucesso.");
-        return null; // sucesso
+        return item; // sucesso
     }
 
     /* ---------------------------- DELETE ----------------------------- */
@@ -162,7 +164,6 @@ public class ItemService {
     public boolean doesItemExist(long id) {
         return itemRepository.existsById(id);
     }
-
 
     public Item getById(long id) {
         if (itemRepository.existsById(id)) {

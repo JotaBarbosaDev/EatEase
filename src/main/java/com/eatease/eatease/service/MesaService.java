@@ -16,17 +16,17 @@ public class MesaService {
         this.mesaRepository = mesaRepository;
     }
 
-    public boolean createMesa(int numero, boolean estadoLivre) {
+    public Mesa createMesa(int numero, boolean estadoLivre) throws Exception {
         if (mesaRepository.findByNumero(numero).isEmpty()) {
             Mesa mesa = new Mesa();
             mesa.setNumero(numero);
             mesa.setEstadoLivre(estadoLivre);
             mesaRepository.save(mesa);
             System.err.println("Mesa adicionada com sucesso.");
-            return true;
+            return mesa;
         } else {
             System.err.println("A mesa já existe.");
-            return false;
+            throw new IllegalArgumentException("A mesa já existe.");
         }
     }
 

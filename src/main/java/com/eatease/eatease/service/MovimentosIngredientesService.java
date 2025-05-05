@@ -17,11 +17,11 @@ public class MovimentosIngredientesService {
         this.ingredientesService = ingredientesService;
     }
 
-    public boolean createMovimentoIngrediente(long id_ingrediente, int quantidade) {
+    public int createMovimentoIngrediente(long id_ingrediente, int quantidade) {
         Ingredientes ingrediente = ingredientesService.getIngredienteById(id_ingrediente);
         if (ingrediente == null) {
             System.err.println("Ingrediente não encontrado.");
-            return false;
+            throw new IllegalArgumentException("Ingrediente não encontrado.");
         }
 
         if (quantidade < 0) {
@@ -37,7 +37,8 @@ public class MovimentosIngredientesService {
         movimentosIngredientes.setQuantidade_atualizada(quantidade); // Defina o valor atualizado conforme necessário
         movimentosIngredientes.setData(java.time.LocalDate.now().toString()); // Set current date to today
         movimentosIngredientesRepository.save(movimentosIngredientes);
+        
         System.err.println("Movimento criado com sucesso.");
-        return true;
+        return ingrediente.getStock(); // quantidade atualizada;
     }
 }

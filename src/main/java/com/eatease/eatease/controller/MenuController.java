@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.service.annotation.DeleteExchange;
 
 import com.eatease.eatease.dto.MenuCreateDTO;
+import com.eatease.eatease.model.Menu;
 import com.eatease.eatease.service.*;
 
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,16 +40,16 @@ public class MenuController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        String res = menuService.createMenu(
-                menuCreateDTO.getNome(),
-                menuCreateDTO.getDescricao(),
-                menuCreateDTO.getItemsIds(),
-                menuCreateDTO.getTipoMenuId());
-        if (res == null) {
-            return ResponseEntity.ok("Menu adicionado com sucesso.");
-        } else {
+        try {
+            Menu res = menuService.createMenu(
+                    menuCreateDTO.getNome(),
+                    menuCreateDTO.getDescricao(),
+                    menuCreateDTO.getItemsIds(),
+                    menuCreateDTO.getTipoMenuId());
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(res);
+                    .body("Erro ao cadastrar menu: " + e.getMessage());
         }
     }
 
@@ -84,17 +85,18 @@ public class MenuController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        String res = menuService.updateMenu(
-                id,
-                menuCreateDTO.getNome(),
-                menuCreateDTO.getDescricao(),
-                menuCreateDTO.getItemsIds(),
-                menuCreateDTO.getTipoMenuId());
-        if (res == null) {
-            return ResponseEntity.ok("Menu editado com sucesso.");
-        } else {
+        try {
+            Menu res = menuService.updateMenu(
+                    id,
+                    menuCreateDTO.getNome(),
+                    menuCreateDTO.getDescricao(),
+                    menuCreateDTO.getItemsIds(),
+                    menuCreateDTO.getTipoMenuId());
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(res);
+                    .body("Erro ao editar menu: " + e.getMessage());
         }
+
     }
 }

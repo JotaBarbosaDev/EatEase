@@ -26,7 +26,7 @@ public class MovimentosIngredientes {
     }
 
     @PostMapping("/movStock")
-    public ResponseEntity<String> addStock(
+    public ResponseEntity<?> addStock(
             @RequestParam long id_ingrediente,
             @Valid @RequestBody MovimentosIngredientesRequestDTO requestDTO,
             @Parameter(hidden = true) HttpServletRequest request) {
@@ -37,13 +37,14 @@ public class MovimentosIngredientes {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        boolean res = movimentosIngredientesService.createMovimentoIngrediente(id_ingrediente,
-                requestDTO.getQuantidade());
-        if (res) {
-            return ResponseEntity.ok("Movimento de adição de stock criado com sucesso.");
-        } else {
+        try {
+            int res = movimentosIngredientesService.createMovimentoIngrediente(id_ingrediente,
+                    requestDTO.getQuantidade());
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível criar o movimento de adição de stock.");
+                    .body("Erro ao cadastrar movimento de ingrediente: " + e.getMessage());
         }
+
     }
 }

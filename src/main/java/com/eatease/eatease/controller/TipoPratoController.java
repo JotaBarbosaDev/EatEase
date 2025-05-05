@@ -28,12 +28,6 @@ public class TipoPratoController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllTipoPratos(@Parameter(hidden = true) HttpServletRequest request) {
-        // Verifica se o utilizador está autenticado
-        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
-        if (validUsername == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
-        }
-
         List<TipoPrato> tipoPratos = tipoPratoService.getAllTipoPratos();
         return ResponseEntity.ok(tipoPratos);
     }

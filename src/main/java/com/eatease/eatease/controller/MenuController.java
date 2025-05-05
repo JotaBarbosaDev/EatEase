@@ -3,12 +3,14 @@ package com.eatease.eatease.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.service.annotation.DeleteExchange;
 
 import com.eatease.eatease.dto.MenuCreateDTO;
 import com.eatease.eatease.service.*;
@@ -50,7 +52,7 @@ public class MenuController {
         }
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deleteMenu(@RequestParam Long id,
             @Parameter(hidden = true) HttpServletRequest request) {
         // Verifica se o utilizador está autenticado
@@ -69,12 +71,6 @@ public class MenuController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllMenus(@Parameter(hidden = true) HttpServletRequest request) {
-        // Verifica se o utilizador está autenticado
-        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
-        if (validUsername == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
-        }
-
         return ResponseEntity.ok(menuService.getAllMenus());
     }
 

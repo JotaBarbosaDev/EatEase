@@ -28,12 +28,6 @@ public class TipoMenuController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllTipoMenus(@Parameter(hidden = true) HttpServletRequest request) {
-        // Verifica se o utilizador está autenticado
-        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
-        if (validUsername == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
-        }
-
         List<TipoMenu> tipoMenus = tipoMenuService.getAllTipoMenus();
         return ResponseEntity.ok(tipoMenus);
     }

@@ -56,12 +56,6 @@ public class IngredientesController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllIngredientes(@Parameter(hidden = true) HttpServletRequest request) {
-        // Verifica se o utilizador está autenticado
-        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
-        if (validUsername == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
-        }
-
         List<Ingredientes> ingredientes = ingredientesService.getAllIngredientes();
         return ResponseEntity.ok(ingredientes);
     }
@@ -117,13 +111,6 @@ public class IngredientesController {
     public ResponseEntity<?> getIngredienteById(
             @PathVariable long id,
             @Parameter(hidden = true) HttpServletRequest request) {
-
-        // Verifica se o utilizador está autenticado
-        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
-        if (validUsername == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
-        }
-
         Ingredientes ingrediente = ingredientesService.getIngredienteById(id);
         if (ingrediente != null) {
             return ResponseEntity.ok(IngredientesResponseDTO.fromEntity(ingrediente));

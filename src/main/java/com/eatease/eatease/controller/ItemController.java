@@ -50,11 +50,6 @@ public class ItemController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllItems(@Parameter(hidden = true) HttpServletRequest request) {
-        // Verifica se o utilizador está autenticado
-        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
-        if (validUsername == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
-        }
 
         return ResponseEntity.ok(itemService.getAllItems());
     }
@@ -62,11 +57,6 @@ public class ItemController {
     @GetMapping("/getByPratoId")
     public ResponseEntity<?> getByPratoId(@RequestParam long pratoId,
             @Parameter(hidden = true) HttpServletRequest request) {
-        // Verifica se o utilizador está autenticado
-        String validUsername = Login.checkLoginWithCargos(request, "GERENTE", "COZINHEIRO");
-        if (validUsername == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
-        }
         Item item = itemService.getById(pratoId);
         if (item == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item não encontrado.");

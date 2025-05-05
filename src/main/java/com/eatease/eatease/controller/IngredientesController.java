@@ -97,12 +97,20 @@ public class IngredientesController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        boolean res = ingredientesService.deleteIngredientes(id);
-        if (res) {
-            return ResponseEntity.ok("Ingrediente removido com sucesso.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Não foi possível remover o ingrediente.");
+        try {
+            boolean res = ingredientesService.deleteIngredientes(id);
+            if (res) {
+                return ResponseEntity.ok("Ingrediente removido com sucesso.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("O ingrediente não existe.");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao remover ingrediente: " + e.getMessage());
         }
     }
 

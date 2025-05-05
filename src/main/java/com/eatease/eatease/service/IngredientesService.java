@@ -1,6 +1,7 @@
 package com.eatease.eatease.service;
 
 import com.eatease.eatease.model.Ingredientes;
+import com.eatease.eatease.model.Item;
 import com.eatease.eatease.repository.IngredientesRepository;
 
 import java.util.List;
@@ -13,11 +14,14 @@ public class IngredientesService {
 
     private final IngredientesRepository ingredientesRepository;
     private final UnidadeMedidaService unidadeMedidaService;
+    private final ItemService itemService;
 
     public IngredientesService(IngredientesRepository ingredientesRepository,
-            UnidadeMedidaService unidadeMedidaService) {
+            UnidadeMedidaService unidadeMedidaService,
+            ItemService itemService) {
         this.ingredientesRepository = ingredientesRepository;
         this.unidadeMedidaService = unidadeMedidaService;
+        this.itemService = itemService;
     }
 
     public Ingredientes createIngredientes(String nome, int stock, int stock_min, String unidade) throws Exception {
@@ -75,9 +79,25 @@ public class IngredientesService {
         }
     }
 
-    public boolean deleteIngredientes(long id) {
+    public boolean deleteIngredientes(long id) throws IllegalArgumentException {
         Ingredientes ingredientes = ingredientesRepository.findById(id).orElse(null);
         if (ingredientes != null) {
+            // Check if the ingredient is being used in any items
+            List<Item> itemsUsingIngredient = itemService.findItemsUsingIngredient(id);
+            if (!itemsUsingIngredient.isEmpty()) {
+                StringBuilder itemNames = new StringBuilder();
+                for (int i = 0; i < itemsUsingIngredient.size(); i++) {
+                    if (i > 0) {
+                        itemNames.append(", ");
+                    }
+                    itemNames.append("'").append(itemsUsingIngredient.get(i).getNome()).append("'");
+                }
+                String errorMessage = "Não é possível remover o ingrediente pois está a ser utilizado nos seguintes itens: "
+                        + itemNames;
+                System.err.println(errorMessage);
+                throw new IllegalArgumentException(errorMessage);
+            }
+
             ingredientesRepository.delete(ingredientes);
             System.err.println("Ingrediente removido com sucesso.");
             return true;

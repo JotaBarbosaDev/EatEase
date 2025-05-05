@@ -2,13 +2,16 @@ package com.eatease.eatease.service;
 
 import com.eatease.eatease.dto.IngredienteQuantDTO;
 import com.eatease.eatease.model.Item;
+import com.eatease.eatease.model.Menu;
 import com.eatease.eatease.repository.ItemRepository;
+import com.eatease.eatease.repository.MenuRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 @Service
 public class ItemService {
@@ -17,13 +20,16 @@ public class ItemService {
     private final ObjectMapper objectMapper; // Jackson
     private final IngredientesService ingredientesService;
     private final TipoPratoService tipoPratoService;
+    private final MenuRepository menuRepository;
 
     public ItemService(ItemRepository itemRepository, ObjectMapper objectMapper,
-            IngredientesService ingredientesService, TipoPratoService tipoPratoService) {
+            IngredientesService ingredientesService, TipoPratoService tipoPratoService,
+            MenuRepository menuRepository) {
         this.itemRepository = itemRepository;
         this.objectMapper = objectMapper;
         this.ingredientesService = ingredientesService;
         this.tipoPratoService = tipoPratoService;
+        this.menuRepository = menuRepository;
     }
 
     /* ---------------------------- CREATE ------------------------------ */
@@ -136,6 +142,22 @@ public class ItemService {
             System.err.println("O item não existe.");
             return false;
         }
+
+        // Check if item is part of any menu
+        List<Menu> menusContainingItem = findMenusUsingItem(id);
+        if (!menusContainingItem.isEmpty()) {
+            StringBuilder menuNames = new StringBuilder();
+            for (int i = 0; i < menusContainingItem.size(); i++) {
+                if (i > 0) {
+                    menuNames.append(", ");
+                }
+                menuNames.append("'").append(menusContainingItem.get(i).getNome()).append("'");
+            }
+            String errorMessage = "Não é possível remover o item pois está incluído nos seguintes menus: " + menuNames;
+            System.err.println(errorMessage);
+            throw new IllegalArgumentException(errorMessage);
+        }
+
         itemRepository.deleteById(id);
         System.err.println("Item eliminado com sucesso.");
         return true;
@@ -170,5 +192,55 @@ public class ItemService {
             return itemRepository.findById(id).get();
         }
         return null;
+    }
+
+    /**
+     * Checks if an ingredient is used in any items
+     * 
+     * @param ingredienteId The ID of the ingredient to check
+     * @return List of items that use the ingredient
+     */
+    public List<Item> findItemsUsingIngredient(long ingredienteId) {
+        List<Item> itemsUsingIngredient = new ArrayList<>();
+        List<Item> allItems = itemRepository.findAll();
+
+        for (Item item : allItems) {
+            List<IngredienteQuantDTO> ingredientes = getIngredientesByItemId(item.getId());
+            if (ingredientes != null) {
+                for (IngredienteQuantDTO ingrediente : ingredientes) {
+                    if (ingrediente.getIngredienteId() == ingredienteId) {
+                        itemsUsingIngredient.add(item);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return itemsUsingIngredient;
+    }
+
+    /**
+     * Checks if an item is used in any menus
+     * 
+     * @param itemId The ID of the item to check
+     * @return List of menus that contain the item
+     */
+    public List<Menu> findMenusUsingItem(long itemId) {
+        List<Menu> menusUsingItem = new ArrayList<>();
+        List<Menu> allMenus = menuRepository.findAll();
+
+        for (Menu menu : allMenus) {
+            long[] itemIds = menu.getItems_id();
+            if (itemIds != null) {
+                for (long id : itemIds) {
+                    if (id == itemId) {
+                        menusUsingItem.add(menu);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return menusUsingItem;
     }
 }

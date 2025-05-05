@@ -103,11 +103,15 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não autenticado");
         }
 
-        boolean res = itemService.deleteItem(id);
-        if (res) {
-            return ResponseEntity.ok("Item eliminado com sucesso.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possível eliminar o item.");
+        try {
+            boolean res = itemService.deleteItem(id);
+            if (res) {
+                return ResponseEntity.ok("Item eliminado com sucesso.");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possível eliminar o item.");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 }

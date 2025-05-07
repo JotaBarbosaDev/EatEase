@@ -1,5 +1,8 @@
 package com.eatease.eatease.dto;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,6 +26,9 @@ public class PedidoRequestDTO {
     @NotNull(message = "O ID do funcionário é obrigatório")
     @Min(value = 1, message = "O ID do funcionário deve ser positivo")
     private Long funcionarioId;
+
+    @Valid
+    private List<IngredienteQuantDTO> ingredientesRemover;
 
     private String observacao;
 
@@ -77,5 +83,13 @@ public class PedidoRequestDTO {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public List<IngredienteQuantDTO> getIngredientesRemover() {
+        return ingredientesRemover;
+    }
+
+    public void setIngredientesRemover(List<IngredienteQuantDTO> ingredientes) {
+        this.ingredientesRemover = ingredientes;
     }
 }

@@ -2,7 +2,6 @@ package com.eatease.eatease.controller;
 
 import com.eatease.eatease.model.Pedido;
 import com.eatease.eatease.dto.PedidoRequestDTO;
-import com.eatease.eatease.dto.PedidoUpdateDTO;
 import com.eatease.eatease.service.PedidoService;
 import com.eatease.eatease.service.Login;
 
@@ -53,7 +52,7 @@ public class PedidoController {
                     pedidoDTO.getEstadoPedidoId(),
                     pedidoDTO.getMesaId(),
                     pedidoDTO.getFuncionarioId(),
-                    pedidoDTO.getObservacao());
+                    pedidoDTO.getObservacao(),pedidoDTO.getIngredientesRemover());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

@@ -6,6 +6,7 @@ import com.eatease.eatease.repository.IngredientesRepository;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,7 @@ public class IngredientesService {
 
     public IngredientesService(IngredientesRepository ingredientesRepository,
             UnidadeMedidaService unidadeMedidaService,
-            ItemService itemService) {
+            @Lazy ItemService itemService) {
         this.ingredientesRepository = ingredientesRepository;
         this.unidadeMedidaService = unidadeMedidaService;
         this.itemService = itemService;

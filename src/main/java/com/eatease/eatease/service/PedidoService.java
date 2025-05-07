@@ -85,7 +85,7 @@ public class PedidoService {
      * during the operation
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public boolean alterarStockItem(long prato_id) {
+    public boolean alterarStockItem(long prato_id, List<IngredienteQuantDTO> ingredientesRemover) {
         Optional<Item> pratoOpt = itemService.getItemById(prato_id);
         if (pratoOpt.isPresent()) {
             Item prato = pratoOpt.get();
@@ -95,11 +95,22 @@ public class PedidoService {
                 return false;
             }
 
+            // remover os ingredientes retirados do prato
+            for (IngredienteQuantDTO ingredienteRemover : ingredientesRemover) {
+                for (IngredienteQuantDTO ingrediente : ingredientes) {
+                    if (ingrediente.getIngredienteId() == ingredienteRemover.getIngredienteId()) {
+                        ingredientes.remove(ingrediente);
+                        break;
+                    }
+                }
+            }
+
             if (temIngredientesSuficientes(prato, ingredientes).size() > 0) {
                 System.err.println("Não há stock suficiente para o prato " + prato.getNome());
                 return false;
             }
 
+            // remove stock dos ingredientes
             for (IngredienteQuantDTO ingredienteQuant : ingredientes) {
                 ingredientesService.removeStock(ingredienteQuant.getIngredienteId(), ingredienteQuant.getQuantidade());
             }
@@ -111,14 +122,14 @@ public class PedidoService {
     }
 
     public Pedido createPedido(long prato_id, long estadoPedido_id, long mesa_id, long funcionario_id,
-            String observacao) throws Exception {
+            String observacao, List<IngredienteQuantDTO> itensRemover) throws Exception {
 
         String error = checkAllInfo(prato_id, estadoPedido_id, mesa_id, funcionario_id);
         if (error != null) {
             throw new Exception(error);
         }
 
-        if (alterarStockItem(prato_id) == false) {
+        if (alterarStockItem(prato_id, itensRemover) == false) {
             throw new Exception("Não há stock suficiente para o prato " + prato_id);
         }
 

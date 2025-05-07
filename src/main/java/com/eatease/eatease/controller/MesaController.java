@@ -10,7 +10,6 @@ import com.eatease.eatease.service.MesaService;
 import com.eatease.eatease.service.Login;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 

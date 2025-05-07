@@ -61,10 +61,6 @@ public class PedidoService {
         return null;
     }
 
-    /**
-     * Checks if there's enough stock for all ingredients in a dish
-     * Used within the transaction to ensure consistency
-     */
     @Transactional(isolation = Isolation.REPEATABLE_READ, readOnly = true)
     public List<Long> temIngredientesSuficientes(Item prato, List<IngredienteQuantDTO> ingredientes) {
         List<Long> naoHaStockSuficiente = new java.util.ArrayList<>();
@@ -78,14 +74,8 @@ public class PedidoService {
         return naoHaStockSuficiente;
     }
 
-    /**
-     * Verifies if there's enough stock for all ingredients and removes them
-     * atomically
-     * Using REPEATABLE_READ to prevent other transactions from changing the stock
-     * during the operation
-     */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public boolean alterarStockItem(long prato_id, List<IngredienteQuantDTO> ingredientesRemover) {
+    public boolean alterarStockItem(long prato_id, List<Long> ingredientesRemover) {
         Optional<Item> pratoOpt = itemService.getItemById(prato_id);
         if (pratoOpt.isPresent()) {
             Item prato = pratoOpt.get();
@@ -96,9 +86,9 @@ public class PedidoService {
             }
 
             // remover os ingredientes retirados do prato
-            for (IngredienteQuantDTO ingredienteRemover : ingredientesRemover) {
+            for (Long ingredienteRemover : ingredientesRemover) {
                 for (IngredienteQuantDTO ingrediente : ingredientes) {
-                    if (ingrediente.getIngredienteId() == ingredienteRemover.getIngredienteId()) {
+                    if (ingrediente.getIngredienteId() == ingredienteRemover) {
                         ingredientes.remove(ingrediente);
                         break;
                     }
@@ -122,7 +112,7 @@ public class PedidoService {
     }
 
     public Pedido createPedido(long prato_id, long estadoPedido_id, long mesa_id, long funcionario_id,
-            String observacao, List<IngredienteQuantDTO> itensRemover) throws Exception {
+            String observacao, List<Long> itensRemover) throws Exception {
 
         String error = checkAllInfo(prato_id, estadoPedido_id, mesa_id, funcionario_id);
         if (error != null) {
@@ -140,6 +130,7 @@ public class PedidoService {
         Pedido.setFuncionario_id(funcionario_id);
         Pedido.setDataHora(java.time.LocalDateTime.now().toString());
         Pedido.setObservacao(observacao);
+        Pedido.setIngredientesRemover(itensRemover);
         pedidoRepository.save(Pedido);
         System.err.println("Pedido adicionado com sucesso.");
         return Pedido; // sucesso

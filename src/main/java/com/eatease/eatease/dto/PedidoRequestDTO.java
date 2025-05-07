@@ -28,7 +28,7 @@ public class PedidoRequestDTO {
     private Long funcionarioId;
 
     @Valid
-    private List<IngredienteQuantDTO> ingredientesRemover;
+    private List<Long> ingredientesRemover;
 
     private String observacao;
 
@@ -85,11 +85,11 @@ public class PedidoRequestDTO {
         this.observacao = observacao;
     }
 
-    public List<IngredienteQuantDTO> getIngredientesRemover() {
+    public List<Long> getIngredientesRemover() {
         return ingredientesRemover;
     }
 
-    public void setIngredientesRemover(List<IngredienteQuantDTO> ingredientes) {
+    public void setIngredientesRemover(List<Long> ingredientes) {
         this.ingredientesRemover = ingredientes;
     }
 }

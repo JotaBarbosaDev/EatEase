@@ -1,5 +1,7 @@
 package com.eatease.eatease.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +18,7 @@ public class Pedido {
     private long funcionario_id;
     private String dataHora;
     private String observacao;
+    private List<Long> ingredientesRemover;
 
     public long getId() {
         return id;
@@ -73,4 +76,11 @@ public class Pedido {
         this.observacao = observacao;
     }
 
+    public List<Long> getIngredientesRemover() {
+        return ingredientesRemover;
+    }
+
+    public void setIngredientesRemover(List<Long> ingredientesRemover) {
+        this.ingredientesRemover = ingredientesRemover;
+    }
 }
